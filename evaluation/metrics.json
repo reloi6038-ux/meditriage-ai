@@ -1,0 +1,76 @@
+{
+  "dataset": {
+    "name": "synthetic-triage-benchmark",
+    "n": 400,
+    "split": "70/30",
+    "seed": 42,
+    "limitation": "Synthetic, not clinically validated; for pipeline demonstration only."
+  },
+  "accuracy": 0,
+  "macroF1": 0,
+  "emergencySensitivity": 0,
+  "perClass": {
+    "EMERGENCY": {
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "URGENT": {
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "SEMI_URGENT": {
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "NON_URGENT": {
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "SELF_CARE": {
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    }
+  },
+  "confusion": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

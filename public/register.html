@@ -1,0 +1,198 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css">
+<title>Create account &mdash; MediTriage AI</title>
+<style>
+  .auth-page{min-height:calc(100vh - 200px);display:grid;place-items:center;padding:2rem 1rem}
+  .auth-card{
+    width:100%;max-width:440px;background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:2rem;box-shadow:var(--shadow-lg);
+    animation: fadeUp .5s var(--ease) both;
+  }
+  .auth-brand{display:flex;align-items:center;gap:.6rem;margin-bottom:1.5rem;text-decoration:none}
+  .auth-brand .brand-mark{width:40px;height:40px}
+  .auth-brand span{font-size:1.15rem;font-weight:800;color:var(--ink)}
+  .auth-brand em{font-style:normal;color:var(--brand-600)}
+  .auth-card h1{font-size:1.5rem;font-weight:800;margin:0 0 .35rem}
+  .auth-card p.sub{color:var(--muted);font-size:.92rem;margin:0 0 1.5rem;line-height:1.5}
+  .auth-form{display:grid;gap:.85rem}
+  .auth-field{display:flex;flex-direction:column;gap:.35rem;font-weight:600;font-size:.85rem;color:var(--ink-2)}
+  .auth-field input{
+    padding:.75rem .9rem;border:1.5px solid var(--border);border-radius:10px;
+    font-size:1rem;background:var(--surface-2);color:var(--ink);font-family:inherit;
+    transition:border-color .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .auth-field input:focus{outline:none;border-color:var(--brand-500);background:var(--surface);box-shadow:0 0 0 4px rgba(6,182,212,.15)}
+  .auth-field .hint{font-weight:400;color:var(--muted);font-size:.75rem;margin-top:.15rem}
+  .auth-submit{
+    margin-top:.5rem;padding:.85rem 1.2rem;border-radius:10px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--brand-600),var(--brand-700));
+    color:#fff;font-weight:700;font-size:1rem;
+    transition:transform .15s var(--ease),filter .15s var(--ease),opacity .15s var(--ease);
+  }
+  .auth-submit:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.05)}
+  .auth-submit:disabled{opacity:.6;cursor:not-allowed}
+  .auth-error{
+    padding:.75rem 1rem;border-radius:10px;background:var(--danger-bg);color:var(--danger);
+    font-size:.88rem;line-height:1.5;animation: shake .4s var(--ease);
+  }
+  .auth-alt{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);text-align:center;font-size:.9rem;color:var(--muted)}
+  .auth-alt a{color:var(--brand-600);font-weight:600;text-decoration:none}
+  .auth-alt a:hover{text-decoration:underline}
+  .pw-meter{display:flex;gap:.25rem;margin-top:.35rem}
+  .pw-meter .seg{height:4px;flex:1;border-radius:2px;background:var(--surface-2);transition:background .2s var(--ease)}
+  .pw-meter .seg.on-weak{background:#dc2626}
+  .pw-meter .seg.on-fair{background:#f59e0b}
+  .pw-meter .seg.on-good{background:#16a34a}
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <a class="auth-brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg-brand-reg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-reg)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <span>MediTriage<em>AI</em></span>
+    </a>
+
+    <h1>Create your account</h1>
+    <p class="sub">Save your assessments server-side so you can access them from any device.</p>
+
+    <form id="register-form" class="auth-form" autocomplete="on" novalidate>
+      <div id="register-error" class="auth-error" hidden role="alert"></div>
+
+      <label class="auth-field">
+        Email
+        <input type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+      </label>
+
+      <label class="auth-field">
+        Display name <span style="color:var(--muted);font-weight:400">(optional)</span>
+        <input type="text" name="displayName" autocomplete="name" placeholder="How should we greet you?" maxlength="60">
+      </label>
+
+      <label class="auth-field">
+        Password
+        <input type="password" name="password" required autocomplete="new-password" placeholder="At least 8 characters" minlength="8">
+        <div class="pw-meter" id="pw-meter" aria-hidden="true">
+          <div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+        </div>
+        <span class="hint" id="pw-hint">Use at least 8 characters.</span>
+      </label>
+
+      <button type="submit" class="auth-submit" id="register-submit">Create account</button>
+    </form>
+
+    <div class="auth-alt">
+      Already have an account? <a href="/login.html">Sign in &rarr;</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+  </div>
+</footer>
+
+<script src="/js/auth.js"></script>
+<script src="/js/ui.js"></script>
+<script>
+(function () {
+  var form = document.getElementById('register-form');
+  var errEl = document.getElementById('register-error');
+  var btn = document.getElementById('register-submit');
+  var pwInput = form.querySelector('input[name="password"]');
+  var meter = document.getElementById('pw-meter');
+  var hint = document.getElementById('pw-hint');
+
+  if (Auth.isLoggedIn()) {
+    var next = new URLSearchParams(location.search).get('next') || '/';
+    setTimeout(function () { location.href = next; }, 50);
+  }
+
+  function pwScore(p) {
+    var s = 0;
+    if (p.length >= 8) s++;
+    if (p.length >= 12) s++;
+    if (/[A-Z]/.test(p) && /[a-z]/.test(p)) s++;
+    if (/[0-9]/.test(p) && /[^A-Za-z0-9]/.test(p)) s++;
+    return s; // 0..4
+  }
+  pwInput.addEventListener('input', function () {
+    var s = pwScore(pwInput.value);
+    var segs = meter.querySelectorAll('.seg');
+    segs.forEach(function (seg, i) {
+      seg.className = 'seg' + (i < s ? ' on-' + (s <= 1 ? 'weak' : s <= 2 ? 'fair' : 'good') : '');
+    });
+    hint.textContent = s === 0 ? 'Use at least 8 characters.'
+      : s === 1 ? 'Weak — add length and variety.'
+      : s === 2 ? 'Fair — add a number or symbol.'
+      : s === 3 ? 'Good password.'
+      : 'Strong password.';
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errEl.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Creating account…';
+
+    var fd = new FormData(form);
+    var body = {
+      email: (fd.get('email') || '').trim().toLowerCase(),
+      password: fd.get('password') || '',
+      displayName: (fd.get('displayName') || '').trim()
+    };
+    if (!body.displayName) delete body.displayName;
+
+    try {
+      var r = await fetch('/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      var j = await r.json();
+      if (!r.ok) {
+        throw new Error((j.details && j.details[0]) || j.error || 'Registration failed');
+      }
+      Auth.setSession(j.data.token, j.data.user);
+
+      var next = new URLSearchParams(location.search).get('next') || '/';
+      try {
+        var u = new URL(next, location.origin);
+        if (u.origin !== location.origin) next = '/';
+      } catch (_) { next = '/'; }
+      location.href = next;
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Create account';
+    }
+  });
+})();
+</script>
+</body></html>

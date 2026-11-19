@@ -1,0 +1,421 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css"><title>About &mdash; MediTriage AI</title>
+<style>
+  .about-page{max-width:900px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 4rem}
+
+  /* Hero */
+  .about-hero{
+    position:relative;overflow:hidden;
+    padding:clamp(2.5rem,5vw,4rem) 1.25rem;
+    text-align:center;border-radius:var(--radius-lg);
+    background:
+      radial-gradient(800px 400px at 20% 0%, rgba(34,211,238,.18), transparent 60%),
+      radial-gradient(800px 400px at 80% 100%, rgba(16,185,129,.14), transparent 60%),
+      var(--surface);
+    box-shadow:var(--shadow);
+    margin-bottom:2rem;
+  }
+  :root[data-theme="dark"] .about-hero{
+    background:
+      radial-gradient(800px 400px at 20% 0%, rgba(34,211,238,.14), transparent 60%),
+      radial-gradient(800px 400px at 80% 100%, rgba(16,185,129,.08), transparent 60%),
+      var(--surface);
+  }
+  .about-hero .eyebrow{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.35rem .85rem;margin-bottom:1rem;
+    background:var(--brand-50);color:var(--brand-700);
+    border:1px solid var(--brand-200);border-radius:999px;
+    font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  }
+  :root[data-theme="dark"] .about-hero .eyebrow{
+    background:rgba(34,211,238,.12);color:var(--brand-200);border-color:rgba(34,211,238,.3);
+  }
+  .about-hero h1{
+    font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;
+    letter-spacing:-.03em;line-height:1.15;margin:0 0 1rem;
+  }
+  .about-hero h1 em{
+    font-style:normal;
+    background:linear-gradient(135deg,#06b6d4,#0e7490,#10b981);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .about-hero p.lead{
+    color:var(--muted);font-size:clamp(.98rem,2vw,1.1rem);
+    max-width:640px;margin:0 auto;line-height:1.65;
+  }
+
+  /* Section headings */
+  .about-section{margin:2.5rem 0}
+  .about-section h2{
+    display:flex;align-items:center;gap:.6rem;
+    font-size:clamp(1.2rem,2.4vw,1.5rem);margin:0 0 1rem;
+  }
+  .about-section h2 .icon{
+    display:inline-flex;width:34px;height:34px;
+    align-items:center;justify-content:center;border-radius:10px;
+    background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    color:#fff;font-size:1rem;flex-shrink:0;
+  }
+  .about-section > p{
+    color:var(--ink-2);line-height:1.65;margin:0 0 1rem;
+  }
+
+  /* Cards */
+  .about-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .about-card h3{margin:.1rem 0 .5rem;font-size:1.02rem}
+  .about-card p{margin:0 0 .5rem;color:var(--ink-2);line-height:1.6;font-size:.94rem}
+  .about-card p:last-child{margin-bottom:0}
+  .about-card strong{color:var(--ink)}
+
+  /* Pipeline */
+  .pipeline{display:grid;gap:.75rem;margin-top:1rem}
+  .pipeline-step{
+    display:flex;gap:1rem;align-items:flex-start;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.1rem 1.2rem;
+    box-shadow:var(--shadow-sm);
+    border-left:4px solid var(--brand-600);
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .pipeline-step:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .pipeline-step .num{
+    flex-shrink:0;width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    color:#fff;font-weight:800;font-size:.9rem;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .pipeline-step h4{margin:0 0 .35rem;font-size:.96rem;color:var(--ink)}
+  .pipeline-step p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.55}
+
+  /* Safety */
+  .safety-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem;margin-top:1rem}
+  .safety-item{
+    display:flex;align-items:flex-start;gap:.6rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:.9rem 1rem;
+    font-size:.88rem;color:var(--ink-2);line-height:1.5;
+  }
+  .safety-item svg{width:18px;height:18px;color:var(--ok);flex-shrink:0;margin-top:.15rem}
+
+  /* Stack grid */
+  .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1rem}
+  .stack-item{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:.9rem 1.05rem;
+  }
+  .stack-item .label{
+    font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--muted);font-weight:700;margin-bottom:.25rem;
+  }
+  .stack-item .value{font-weight:700;color:var(--ink);font-size:.95rem}
+
+  /* Transparency */
+  .transparency{
+    background:linear-gradient(135deg, rgba(245,158,11,.06), rgba(245,158,11,.02));
+    border:1px solid rgba(245,158,11,.3);
+    border-radius:var(--radius);padding:1.4rem;margin:1rem 0;
+  }
+  .transparency h3{display:flex;align-items:center;gap:.5rem;margin:0 0 .5rem;color:#92400e}
+  :root[data-theme="dark"] .transparency h3{color:#fcd34d}
+  .transparency p{margin:0 0 .5rem;color:var(--ink-2);font-size:.92rem;line-height:1.6}
+  .transparency ul{margin:.5rem 0 0;padding-left:1.2rem}
+  .transparency li{margin:.35rem 0;color:var(--ink-2);font-size:.9rem;line-height:1.5}
+
+  /* CTA links */
+  .quick-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1rem}
+  .quick-link{
+    display:flex;align-items:center;gap:.75rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem 1.1rem;
+    color:var(--ink);text-decoration:none;
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);
+  }
+  .quick-link:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--brand-400);color:var(--ink)}
+  .quick-link .ql-icon{
+    flex-shrink:0;width:36px;height:36px;border-radius:10px;
+    background:var(--brand-50);color:var(--brand-700);
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  :root[data-theme="dark"] .quick-link .ql-icon{background:rgba(34,211,238,.12);color:var(--brand-400)}
+  .quick-link .ql-label{font-weight:700;font-size:.92rem}
+  .quick-link .ql-hint{color:var(--muted);font-size:.78rem;margin-top:.15rem}
+
+  /* Medical disclaimer card */
+  .disclaimer-card{
+    background:linear-gradient(135deg, rgba(220,38,38,.05), rgba(220,38,38,.02));
+    border:1px solid rgba(220,38,38,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-top:2rem;
+  }
+  .disclaimer-card h3{display:flex;align-items:center;gap:.5rem;margin:0 0 .5rem;color:#b91c1c;font-size:1rem}
+  .disclaimer-card p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6}
+  .disclaimer-card strong{color:var(--ink)}
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="/assess.html" data-nav>Assess</a></li>
+    <li><a href="/dashboard.html" data-nav>Dashboard</a></li>
+    <li><a href="/history.html" data-nav>History</a></li>
+    <li><a href="/education.html" data-nav>Education</a></li>
+    <li><a href="/about.html" data-nav>About</a></li>
+  </ul>
+</nav>
+<main class="about-page">
+
+<!-- HERO -->
+<section class="about-hero" data-reveal>
+  <span class="eyebrow">About MediTriage AI</span>
+  <h1>Built for the moment <em>between symptoms and care</em>.</h1>
+  <p class="lead">A decision-support tool that helps community health workers, nurses, and patients decide how urgent a symptom really is &mdash; with explainable results, transparent reasoning, and clinical safety built into the architecture.</p>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">!</span> The problem we&rsquo;re solving</h2>
+  <p>In low-resource clinics and community health posts, triage is often performed ad hoc &mdash; a conversation, a glance, a gut feeling. That works when the queue is short. It fails when the queue is long and one patient has a heart attack behind three others with cold symptoms.</p>
+  <p>Meanwhile, for patients who can&rsquo;t easily reach a clinic, there&rsquo;s no structured way to answer the most basic question: <em>&ldquo;Do I need to go now, or can this wait?&rdquo;</em></p>
+  <div class="about-card">
+    <h3>What we&rsquo;ve built instead</h3>
+    <p>A structured intake workflow aligned with <strong>WHO/IMCI danger signs</strong> and emergency-severity principles, that returns a transparent 5-level urgency recommendation with an emergency flag, probability breakdown, action, timeframe, and watch-for signs.</p>
+    <p>Every result is explainable. Every danger sign is checked. Every emergency is caught before any statistical layer runs.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">5</span> How the triage engine works</h2>
+  <p>The engine is not a single model. It&rsquo;s a <strong>layered pipeline</strong> where deterministic rules run first &mdash; because clinical safety cannot depend on a statistical layer that might be wrong.</p>
+  <div class="pipeline">
+    <div class="pipeline-step">
+      <span class="num">1</span>
+      <div>
+        <h4>Structured intake + validation</h4>
+        <p>WHO danger signs, symptoms, vitals (temperature, HR, RR, SpO₂, BP, glucose, AVPU, pain), pregnancy status, chronic conditions, medications, allergies, and progression. Every field is validated on the client and again server-side with Joi.</p>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="num">2</span>
+      <div>
+        <h4>Deterministic rule engine</h4>
+        <p>Red flags, danger-sign combinations, and vital thresholds are evaluated first. A single red flag forces an EMERGENCY result before any statistical layer runs. This is the safety floor.</p>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="num">3</span>
+      <div>
+        <h4>Bounded ML calibrator</h4>
+        <p>A small logistic-regression model (trained on a reproducible synthetic benchmark) refines <em>borderline</em> cases. It is clamped by design: it cannot escalate a mild case to EMERGENCY, cannot downgrade an emergency, and cannot move a result by more than one rank.</p>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="num">4</span>
+      <div>
+        <h4>Admin-managed clinical rules</h4>
+        <p>Clinicians can add, edit, or disable rule overrides for their deployment &mdash; e.g. a regional policy that escalates specific fever presentations. Rules are prioritized, versioned, and audit-logged.</p>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="num">5</span>
+      <div>
+        <h4>Deterministic AI summary</h4>
+        <p>A non-diagnostic AI layer explains the result in plain language, flags missing information that would improve confidence, and suggests follow-up questions. It cannot override the triage result and does not diagnose disease.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">✓</span> Safety guarantees</h2>
+  <p>These are not aspirational goals &mdash; they are enforced by code and validated by tests.</p>
+  <div class="safety-list">
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>Emergency rules always outrank every other rule</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>ML cannot downgrade an emergency result</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>ML cannot escalate mild cases to emergency</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>AI summary cannot override the triage result</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>Missing data reduces confidence &mdash; it never fabricates certainty</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>No names, addresses, or phone numbers stored by default</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>Every admin action recorded in an immutable audit log</span>
+    </div>
+    <div class="safety-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      <span>Localizable emergency-resource directory &mdash; no hard-coded numbers</span>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">⚙</span> Technical architecture</h2>
+  <p>Deliberately minimal, deliberately boring, deliberately auditable. No external APIs at runtime. No third-party trackers. No CDN. Runs on a single Render instance backed by MongoDB Atlas.</p>
+  <div class="stack">
+    <div class="stack-item">
+      <div class="label">Backend</div>
+      <div class="value">Node.js · Express</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Database</div>
+      <div class="value">MongoDB · Mongoose</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Auth</div>
+      <div class="value">JWT · bcrypt</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Validation</div>
+      <div class="value">Joi · custom rules</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Frontend</div>
+      <div class="value">Vanilla HTML · CSS · JS</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Clinical standard</div>
+      <div class="value">WHO/IMCI · ESI-aligned</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">AI layer</div>
+      <div class="value">Deterministic · non-diagnostic</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Testing</div>
+      <div class="value">Jest · Supertest · in-memory Mongo</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Deployment</div>
+      <div class="value">Render · GitHub · MongoDB Atlas</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPARENCY -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">⚖</span> Transparency &amp; limitations</h2>
+  <p>We think honest disclosure of limitations is more useful than overclaiming clinical validation. Here&rsquo;s what this tool is, and what it isn&rsquo;t.</p>
+  <div class="transparency">
+    <h3>What we don&rsquo;t claim</h3>
+    <p>The triage engine has <strong>not been validated in a clinical trial</strong>. Its machine-learning calibrator was trained on a <strong>reproducible synthetic benchmark</strong>, not on real patient data, and is used only to refine borderline cases &mdash; never to override the deterministic rule engine.</p>
+    <ul>
+      <li>Results are decision support, not diagnosis.</li>
+      <li>Weights and thresholds are based on published clinical guidance (WHO/IMCI, ESI), not on a validated proprietary dataset.</li>
+      <li>Local clinical policies may differ &mdash; the admin rule system exists precisely so clinicians can adjust thresholds to their context.</li>
+      <li>Failure modes include: under-triage of atypical presentations, over-triage when input is incomplete, and confidence scores that reflect the model&rsquo;s internal calibration rather than true clinical certainty.</li>
+    </ul>
+    <p style="margin-top:.75rem"><strong>If you&rsquo;re deploying this in a real clinical setting:</strong> commission a supervised pilot with a clinician-reviewed protocol, register it appropriately, and treat the app as a second-opinion aid only.</p>
+  </div>
+</section>
+
+<!-- WHAT YOU CAN DO -->
+<section class="about-section" data-reveal>
+  <h2><span class="icon">→</span> What you can do today</h2>
+  <div class="quick-links">
+    <a href="/assess.html" class="quick-link">
+      <span class="ql-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </span>
+      <div>
+        <div class="ql-label">Run an assessment</div>
+        <div class="ql-hint">Structured clinical intake in under 30 seconds</div>
+      </div>
+    </a>
+    <a href="/dashboard.html" class="quick-link">
+      <span class="ql-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </span>
+      <div>
+        <div class="ql-label">View system dashboard</div>
+        <div class="ql-hint">Live usage metrics and model evaluation</div>
+      </div>
+    </a>
+    <a href="/history.html" class="quick-link">
+      <span class="ql-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </span>
+      <div>
+        <div class="ql-label">Review history</div>
+        <div class="ql-hint">Look up any assessment by reference</div>
+      </div>
+    </a>
+    <a href="/admin.html" class="quick-link">
+      <span class="ql-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v6c0 5 4 9 9 11 5-2 9-6 9-11V7z"/></svg>
+      </span>
+      <div>
+        <div class="ql-label">Admin console</div>
+        <div class="ql-hint">Manage rules, resources, users, audit</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-card" data-reveal>
+  <h3><span aria-hidden="true">⚠</span> Medical disclaimer</h3>
+  <p><strong>MediTriage AI is a decision-support and educational tool.</strong> It does not diagnose disease, is not a medical device, and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions about a medical condition. Never disregard professional medical advice or delay seeking it because of something you have read here. In an emergency, contact your local emergency number immediately.</p>
+</div>
+
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-ft" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-ft)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <p><strong>MediTriage AI</strong><br>Decision-support for community triage.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/education.html">Education</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+    <p class="footer-copy">&copy; 2025 MediTriage AI &middot; MIT License</p>
+  </div>
+</footer>
+<script src="/js/auth.js"></script><script src="/js/ui.js"></script>
+</body></html>

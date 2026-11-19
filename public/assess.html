@@ -1,0 +1,530 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css"><title>Clinical Triage Assessment &mdash; MediTriage AI</title>
+<style>
+  .assess-page{max-width:860px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 4rem}
+  .assess-header{
+    padding:1.75rem 1.25rem;margin-bottom:1.5rem;border-radius:var(--radius-lg);
+    background:linear-gradient(135deg,rgba(6,182,212,.10),rgba(14,116,144,.06)),var(--surface);
+    border:1px solid var(--border);box-shadow:var(--shadow);
+  }
+  .assess-header h1{margin:0 0 .35rem;font-size:clamp(1.5rem,3.5vw,2rem)}
+  .assess-header p{margin:0;color:var(--muted);font-size:.95rem}
+  .assess-header .who-badge{
+    display:inline-flex;align-items:center;gap:.35rem;margin-top:.6rem;
+    padding:.3rem .7rem;background:var(--brand-50);color:var(--brand-800);
+    border:1px solid var(--brand-200);border-radius:999px;font-size:.75rem;font-weight:600;
+  }
+  :root[data-theme="dark"] .assess-header .who-badge{background:rgba(34,211,238,.12);color:var(--brand-200);border-color:rgba(34,211,238,.3)}
+
+  /* Resume banner */
+  .resume-banner{
+    display:none;align-items:center;gap:1rem;flex-wrap:wrap;
+    background:linear-gradient(135deg, rgba(6,182,212,.10), rgba(16,185,129,.05));
+    border:1px solid rgba(6,182,212,.3);
+    border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:1rem;
+    animation:fadeUp .35s var(--ease) both;
+  }
+  .resume-banner.show{display:flex}
+  .resume-banner .resume-icon{
+    flex-shrink:0;width:36px;height:36px;border-radius:10px;
+    background:var(--brand-600);color:#fff;display:inline-flex;align-items:center;justify-content:center;
+    font-size:.95rem;font-weight:800;
+  }
+  .resume-banner .resume-text{flex:1;min-width:0}
+  .resume-banner .resume-text strong{display:block;color:var(--ink);font-size:.95rem}
+  .resume-banner .resume-text span{color:var(--muted);font-size:.82rem}
+  .resume-banner .resume-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  .resume-banner .cta{padding:.5rem .9rem;font-size:.85rem}
+  .resume-banner .cta.ghost{padding:.5rem .9rem}
+
+  /* Real-time danger banner */
+  .danger-live{
+    display:none;align-items:flex-start;gap:1rem;
+    background:linear-gradient(135deg,#fee2e2,#fecaca);
+    border-left:6px solid #b91c1c;
+    border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem;
+    color:#7f1d1d;
+    box-shadow:0 10px 30px rgba(185,28,28,.2);
+    animation:pulseWarn 2s var(--ease) infinite;
+  }
+  .danger-live.show{display:flex}
+  @keyframes pulseWarn{
+    0%,100%{box-shadow:0 10px 30px rgba(185,28,28,.2)}
+    50%{box-shadow:0 10px 40px rgba(185,28,28,.45)}
+  }
+  .danger-live .dl-icon{
+    flex-shrink:0;width:40px;height:40px;border-radius:10px;
+    background:#b91c1c;color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:1.3rem;
+  }
+  .danger-live .dl-body{flex:1;min-width:0}
+  .danger-live h3{margin:0 0 .35rem;color:#7f1d1d;font-size:1rem}
+  .danger-live p{margin:0 0 .75rem;color:#7f1d1d;opacity:.9;font-size:.88rem;line-height:1.5}
+  .danger-live .dl-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  .danger-live .dl-btn{
+    padding:.6rem 1rem;border-radius:8px;border:0;cursor:pointer;
+    font-weight:700;font-size:.9rem;
+    transition:transform .15s var(--ease),filter .15s var(--ease);
+  }
+  .danger-live .dl-btn.primary{background:#b91c1c;color:#fff}
+  .danger-live .dl-btn.primary:hover{transform:translateY(-1px);filter:brightness(1.1)}
+  .danger-live .dl-btn.ghost{background:transparent;color:#7f1d1d;border:1.5px solid #7f1d1d}
+
+  /* Progress bar */
+  .progress-wrap{
+    position:sticky;top:64px;z-index:50;margin:0 0 1rem;
+    background:color-mix(in srgb,var(--surface) 92%,transparent);
+    backdrop-filter:blur(8px);
+    border:1px solid var(--border);border-radius:12px;padding:.6rem .9rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .progress-head{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;font-weight:600;color:var(--ink-2);margin-bottom:.35rem}
+  .progress-track{height:8px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--brand-400),var(--brand-700));transition:width .4s var(--ease)}
+
+  /* Sections */
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--shadow-sm);animation:fadeUp .45s var(--ease) both}
+  .section h2{font-size:1.05rem;margin:0 0 .25rem;color:var(--ink);display:flex;align-items:center;gap:.55rem}
+  .section-num{display:inline-flex;width:26px;height:26px;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(135deg,var(--brand-500),var(--brand-700));color:#fff;font-size:.8rem;font-weight:800;flex-shrink:0}
+  .section-hint{font-size:.82rem;color:var(--muted);margin:0 0 .9rem}
+
+  /* Fields */
+  .field{display:flex;flex-direction:column;gap:.3rem;font-weight:600;font-size:.88rem;color:var(--ink-2);margin-bottom:.8rem}
+  .field-label{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+  .field-unit{font-weight:500;color:var(--muted);font-size:.78rem}
+  .field-help{font-weight:400;color:var(--muted);font-size:.76rem;margin-top:.15rem}
+  .field input,.field select,.field textarea{
+    padding:.65rem .8rem;border:1.5px solid var(--border);border-radius:10px;
+    font-size:.98rem;background:var(--surface-2);color:var(--ink);font-family:inherit;width:100%;
+    transition:border-color .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--brand-500);background:var(--surface);
+    box-shadow:0 0 0 4px rgba(6,182,212,.15);
+  }
+  .field input[aria-invalid="true"]{border-color:var(--danger);box-shadow:0 0 0 4px rgba(185,28,28,.12)}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem}
+
+  /* Danger signs */
+  .danger-signs{
+    display:grid;grid-template-columns:1fr;gap:.4rem;
+    border:2px solid var(--danger);border-radius:12px;padding:.9rem;
+    background:linear-gradient(135deg,rgba(185,28,28,.04),rgba(185,28,28,.02));
+  }
+  :root[data-theme="dark"] .danger-signs{background:rgba(185,28,28,.08)}
+  .danger-signs legend{font-weight:800;color:var(--danger);padding:0 .5rem;font-size:.9rem}
+  .danger-signs .check{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem .6rem;border-radius:8px;cursor:pointer;transition:background .15s var(--ease);font-weight:500;font-size:.9rem;color:var(--ink);user-select:none}
+  .danger-signs .check:hover{background:rgba(185,28,28,.08)}
+  .danger-signs input{margin:.15rem 0 0;accent-color:var(--danger);width:18px;height:18px;flex-shrink:0}
+
+  /* Symptom search */
+  .symptom-search-wrap{position:relative;margin-bottom:.75rem}
+  .symptom-search-wrap input{
+    width:100%;padding:.65rem .8rem .65rem 2.3rem;
+    border:1.5px solid var(--border);border-radius:10px;
+    font-size:.95rem;background:var(--surface-2);color:var(--ink);
+    font-family:inherit;
+    transition:border-color .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .symptom-search-wrap input:focus{outline:none;border-color:var(--brand-500);background:var(--surface);box-shadow:0 0 0 4px rgba(6,182,212,.15)}
+  .symptom-search-wrap .search-icon{
+    position:absolute;left:.75rem;top:50%;transform:translateY(-50%);
+    color:var(--muted);pointer-events:none;width:16px;height:16px;
+  }
+  .symptom-search-wrap .clear-btn{
+    position:absolute;right:.5rem;top:50%;transform:translateY(-50%);
+    background:transparent;border:0;cursor:pointer;color:var(--muted);
+    font-size:1.1rem;padding:.2rem .5rem;border-radius:6px;display:none;
+  }
+  .symptom-search-wrap .clear-btn:hover{background:var(--surface);color:var(--ink)}
+  .symptom-search-wrap.has-value .clear-btn{display:block}
+
+  /* Chips */
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.4rem;border:1px dashed var(--border);padding:.9rem;border-radius:12px;transition:max-height .3s var(--ease)}
+  .chips legend{font-weight:700;padding:0 .4rem;color:var(--ink);font-size:.9rem}
+  .chips .check{display:flex;align-items:center;gap:.5rem;font-weight:500;background:var(--surface-2);padding:.5rem .7rem;border-radius:9px;cursor:pointer;transition:background .15s var(--ease),transform .15s var(--ease),opacity .2s var(--ease);font-size:.88rem;user-select:none}
+  .chips .check:hover{background:var(--brand-50);transform:translateX(2px)}
+  :root[data-theme="dark"] .chips .check:hover{background:rgba(34,211,238,.12)}
+  .chips input{margin:0;accent-color:var(--brand-600);width:16px;height:16px;flex-shrink:0}
+  .chips .check.hidden-by-search{display:none}
+  .chips-empty-note{grid-column:1/-1;text-align:center;color:var(--muted);font-size:.85rem;padding:.5rem}
+
+  /* Advanced vitals collapsible */
+  .advanced-toggle{
+    margin-top:.6rem;padding:.65rem 1rem;
+    background:var(--surface-2);border:1px solid var(--border);border-radius:10px;
+    cursor:pointer;font-weight:600;font-size:.88rem;color:var(--ink-2);
+    display:flex;align-items:center;justify-content:space-between;width:100%;
+    transition:background .15s var(--ease);
+  }
+  .advanced-toggle:hover{background:var(--brand-50);color:var(--brand-700)}
+  :root[data-theme="dark"] .advanced-toggle:hover{background:rgba(34,211,238,.12);color:var(--brand-200)}
+  .advanced-toggle .adv-chev{transition:transform .2s var(--ease)}
+  .advanced-toggle.open .adv-chev{transform:rotate(180deg)}
+  .advanced-panel{
+    max-height:0;overflow:hidden;transition:max-height .4s var(--ease);
+    padding-top:0;
+  }
+  .advanced-panel.open{max-height:1000px;padding-top:.85rem}
+
+  /* Submit bar */
+  .submit-bar{position:static;margin-top:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.6rem}
+  .submit-bar .cta{width:100%;justify-content:center;padding:1rem;font-size:1.05rem;position:relative;transition:all .2s var(--ease)}
+  .submit-bar .cta.is-loading{pointer-events:none;opacity:.85}
+  .submit-bar .cta.is-loading::after{content:'';display:inline-block;width:16px;height:16px;margin-left:.6rem;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:-3px}
+  .submit-bar .summary{font-size:.82rem;color:var(--muted);text-align:center;margin:0}
+  .submit-bar .disclaimer-inline{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.4rem;line-height:1.4}
+
+  .error{color:var(--danger);background:var(--danger-bg);padding:.7rem .9rem;border-radius:10px;font-size:.88rem;margin:0;animation:shake .4s var(--ease)}
+
+  /* Draft status pill */
+  .draft-pill{
+    display:none;align-items:center;gap:.35rem;
+    padding:.2rem .6rem;border-radius:999px;
+    background:var(--surface-2);border:1px solid var(--border);
+    font-size:.72rem;font-weight:600;color:var(--muted);
+    margin-left:auto;
+  }
+  .draft-pill.show{display:inline-flex}
+  .draft-pill .dot-live{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+
+  @media (max-width:520px){
+    .section{padding:1rem}
+    .grid-3{grid-template-columns:1fr}
+    .progress-wrap{top:56px}
+  }
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="/assess.html" data-nav>Assess</a></li>
+    <li><a href="/dashboard.html" data-nav>Dashboard</a></li>
+    <li><a href="/history.html" data-nav>History</a></li>
+    <li><a href="/education.html" data-nav>Education</a></li>
+    <li><a href="/about.html" data-nav>About</a></li>
+  </ul>
+</nav>
+<main class="assess-page">
+
+  <header class="assess-header" data-reveal>
+    <h1>Clinical triage assessment</h1>
+    <p>Structured intake aligned with <strong>WHO/IMCI danger-sign criteria</strong> and emergency-severity principles. Complete as many fields as you can &mdash; more data means a more reliable recommendation.</p>
+    <span class="who-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2L3 7v6c0 5 4 9 9 11 5-2 9-6 9-11V7z"/><path d="M9 12l2 2 4-4"/></svg>
+      WHO/IMCI &middot; ESI-aligned &middot; Decision-support only
+    </span>
+  </header>
+
+  <!-- Resume draft banner -->
+  <div class="resume-banner" id="resume-banner">
+    <div class="resume-icon">↻</div>
+    <div class="resume-text">
+      <strong>Resume your last assessment?</strong>
+      <span id="resume-meta">—</span>
+    </div>
+    <div class="resume-actions">
+      <button class="cta" type="button" id="resume-btn">Resume</button>
+      <button class="cta ghost" type="button" id="discard-btn">Discard</button>
+    </div>
+  </div>
+
+  <!-- Real-time danger banner -->
+  <div class="danger-live" id="danger-live" role="alert" aria-live="assertive">
+    <div class="dl-icon">!</div>
+    <div class="dl-body">
+      <h3>Emergency indicators detected</h3>
+      <p>The signs you have checked meet WHO/IMCI emergency criteria. You can submit now for an immediate result, or call emergency services first.</p>
+      <div class="dl-actions">
+        <button type="button" class="dl-btn primary" id="dl-submit-now">Submit now &mdash; Emergency</button>
+        <button type="button" class="dl-btn ghost" id="dl-dismiss">Keep filling out form</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap" aria-label="Assessment completeness">
+    <div class="progress-head">
+      <span>Assessment completeness <span class="draft-pill" id="draft-pill"><span class="dot-live"></span>Saved</span></span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <form id="assess-form" novalidate>
+
+    <!-- ============ 1. PATIENT CONTEXT ============ -->
+    <section class="section">
+      <h2><span class="section-num">1</span> Patient context</h2>
+      <p class="section-hint">Basic information. Age group is required. Everything else is optional and improves accuracy.</p>
+      <div class="grid-3">
+        <label class="field">
+          <span class="field-label">Age group <span style="color:var(--danger)">*</span></span>
+          <select name="ageBucket" required>
+            <option value="">Select&hellip;</option>
+            <option value="&lt;1">Under 1 year</option>
+            <option value="1-4">1&ndash;4 years</option>
+            <option value="5-17">5&ndash;17 years</option>
+            <option value="18-39">18&ndash;39 years</option>
+            <option value="40-64">40&ndash;64 years</option>
+            <option value="65+">65 years or older</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Sex</span>
+          <select name="sex">
+            <option value="unknown">Prefer not to say</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Pregnancy status</span>
+          <select name="pregnancy">
+            <option value="not_applicable">Not applicable</option>
+            <option value="no">Not pregnant</option>
+            <option value="yes_first">Pregnant &mdash; first trimester</option>
+            <option value="yes_second">Pregnant &mdash; second trimester</option>
+            <option value="yes_third">Pregnant &mdash; third trimester</option>
+            <option value="postpartum">Postpartum (within 6 weeks)</option>
+          </select>
+        </label>
+      </div>
+      <fieldset class="chips" style="margin-top:.6rem">
+        <legend>Known chronic conditions / risk factors</legend>
+        <label class="check"><input type="checkbox" name="conditions" value="diabetes"> Diabetes</label>
+        <label class="check"><input type="checkbox" name="conditions" value="hypertension"> Hypertension</label>
+        <label class="check"><input type="checkbox" name="conditions" value="heart_disease"> Heart disease</label>
+        <label class="check"><input type="checkbox" name="conditions" value="asthma"> Asthma / COPD</label>
+        <label class="check"><input type="checkbox" name="conditions" value="immunocompromised"> Immunocompromised</label>
+        <label class="check"><input type="checkbox" name="conditions" value="recent_surgery"> Recent surgery</label>
+        <label class="check"><input type="checkbox" name="conditions" value="none"> None known</label>
+      </fieldset>
+    </section>
+
+    <!-- ============ 2. WHO DANGER SIGNS ============ -->
+    <section class="section">
+      <h2><span class="section-num">2</span> WHO danger signs</h2>
+      <p class="section-hint">Check any that apply. <strong>Any single danger sign forces an EMERGENCY recommendation.</strong> These are the standard WHO/IMCI general danger signs and major clinical red flags.</p>
+      <fieldset class="danger-signs">
+        <legend>⚠ Danger signs &mdash; check all that apply</legend>
+        <label class="check"><input type="checkbox" name="redFlags" value="unable_to_drink"> <span>Unable to drink or breastfeed</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="vomits_everything"> <span>Vomits everything</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="convulsions"> <span>Convulsions / seizure (current or recent)</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="lethargic"> <span>Lethargic or unconscious</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="severe_chest_pain"> <span>Severe chest pain or pressure</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="severe_breathing"> <span>Severe difficulty breathing at rest</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="uncontrolled_bleeding"> <span>Uncontrolled or severe bleeding</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="sudden_weakness"> <span>Sudden weakness or numbness on one side</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="sudden_speech"> <span>Sudden speech difficulty or confusion</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="severe_dehydration"> <span>Signs of severe dehydration (sunken eyes, skin tenting)</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="stiff_neck"> <span>Stiff neck with fever</span></label>
+        <label class="check"><input type="checkbox" name="redFlags" value="severe_allergic"> <span>Severe allergic reaction / facial swelling</span></label>
+      </fieldset>
+    </section>
+
+    <!-- ============ 3. SYMPTOMS ============ -->
+    <section class="section">
+      <h2><span class="section-num">3</span> Presenting symptoms</h2>
+      <p class="section-hint">Search or click. At least one symptom is required (unless you have selected a danger sign above).</p>
+
+      <div class="symptom-search-wrap" id="symptom-search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="symptom-search" placeholder="Search symptoms (e.g. fever, chest, head)…" aria-label="Search symptoms" autocomplete="off">
+        <button type="button" class="clear-btn" id="symptom-search-clear" aria-label="Clear search">×</button>
+      </div>
+
+      <fieldset class="chips" id="symptom-chips">
+        <legend>Primary symptoms</legend>
+        <label class="check" data-sym="fever"><input type="checkbox" name="symptoms" value="fever"> Fever</label>
+        <label class="check" data-sym="cough"><input type="checkbox" name="symptoms" value="cough"> Cough</label>
+        <label class="check" data-sym="chest pain"><input type="checkbox" name="symptoms" value="chest_pain"> Chest pain</label>
+        <label class="check" data-sym="shortness of breath breathing"><input type="checkbox" name="symptoms" value="shortness_of_breath"> Shortness of breath</label>
+        <label class="check" data-sym="severe headache head"><input type="checkbox" name="symptoms" value="severe_headache"> Severe headache</label>
+        <label class="check" data-sym="confusion confused"><input type="checkbox" name="symptoms" value="confusion"> Confusion</label>
+        <label class="check" data-sym="weakness one side stroke"><input type="checkbox" name="symptoms" value="weakness_one_side"> Weakness on one side</label>
+        <label class="check" data-sym="slurred speech stroke"><input type="checkbox" name="symptoms" value="slurred_speech"> Slurred speech</label>
+        <label class="check" data-sym="severe bleeding"><input type="checkbox" name="symptoms" value="severe_bleeding"> Severe bleeding</label>
+        <label class="check" data-sym="vomiting"><input type="checkbox" name="symptoms" value="vomiting"> Vomiting</label>
+        <label class="check" data-sym="diarrhea"><input type="checkbox" name="symptoms" value="diarrhea"> Diarrhea</label>
+        <label class="check" data-sym="abdominal pain stomach"><input type="checkbox" name="symptoms" value="abdominal_pain"> Abdominal pain</label>
+        <label class="check" data-sym="fatigue tired"><input type="checkbox" name="symptoms" value="fatigue"> Fatigue</label>
+        <label class="check" data-sym="dizziness dizzy"><input type="checkbox" name="symptoms" value="dizziness"> Dizziness</label>
+        <label class="check" data-sym="seizure"><input type="checkbox" name="symptoms" value="seizure"> Seizure</label>
+        <label class="check" data-sym="fainting"><input type="checkbox" name="symptoms" value="fainting"> Fainting</label>
+        <label class="check" data-sym="rash"><input type="checkbox" name="symptoms" value="rash"> Rash</label>
+        <label class="check" data-sym="joint pain"><input type="checkbox" name="symptoms" value="joint_pain"> Joint pain</label>
+        <label class="check" data-sym="sore throat"><input type="checkbox" name="symptoms" value="sore_throat"> Sore throat</label>
+        <label class="check" data-sym="runny nose"><input type="checkbox" name="symptoms" value="runny_nose"> Runny nose</label>
+        <label class="check" data-sym="palpitations heart"><input type="checkbox" name="symptoms" value="palpitations"> Palpitations</label>
+        <label class="check" data-sym="swollen leg"><input type="checkbox" name="symptoms" value="swollen_leg"> Swollen leg</label>
+      </fieldset>
+
+      <div class="grid-2" style="margin-top:.8rem">
+        <label class="field">
+          <span class="field-label">Symptom onset <span class="field-unit">when did it start?</span></span>
+          <select name="onset">
+            <option value="">Not specified</option>
+            <option value="sudden">Sudden (minutes to hours)</option>
+            <option value="today">Today</option>
+            <option value="1-3_days">1&ndash;3 days ago</option>
+            <option value="4-7_days">4&ndash;7 days ago</option>
+            <option value="over_week">More than a week ago</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Duration <span class="field-unit">hours</span></span>
+          <input type="number" name="durationHours" min="0" max="8760" placeholder="e.g. 12" inputmode="numeric">
+          <span class="field-help">Total time since symptoms began (0&ndash;8760 hours).</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ============ 4. VITAL SIGNS ============ -->
+    <section class="section">
+      <h2><span class="section-num">4</span> Vital signs</h2>
+      <p class="section-hint">Enter the basics. Add advanced measurements if you have them &mdash; more data means a more confident result.</p>
+
+      <div class="grid-3">
+        <label class="field">
+          <span class="field-label">Temperature <span class="field-unit">&deg;C</span></span>
+          <input type="number" name="tempC" step="0.1" min="25" max="45" placeholder="36.8" inputmode="decimal">
+          <span class="field-help">Normal: 36.1&ndash;37.2&deg;C</span>
+        </label>
+        <label class="field">
+          <span class="field-label">Heart rate <span class="field-unit">bpm</span></span>
+          <input type="number" name="heartRate" min="20" max="250" placeholder="72" inputmode="numeric">
+          <span class="field-help">Adult normal: 60&ndash;100</span>
+        </label>
+        <label class="field">
+          <span class="field-label">Respiratory rate <span class="field-unit">breaths/min</span></span>
+          <input type="number" name="respRate" min="4" max="80" placeholder="16" inputmode="numeric">
+          <span class="field-help">Adult normal: 12&ndash;20</span>
+        </label>
+        <label class="field">
+          <span class="field-label">SpO<sub>2</sub> <span class="field-unit">%</span></span>
+          <input type="number" name="spo2" min="50" max="100" placeholder="98" inputmode="numeric">
+          <span class="field-help">Normal: &ge;95%. &lt;90% is critical</span>
+        </label>
+        <label class="field">
+          <span class="field-label">Systolic BP <span class="field-unit">mmHg</span></span>
+          <input type="number" name="systolicBP" min="40" max="300" placeholder="120" inputmode="numeric">
+          <span class="field-help">Normal: 90&ndash;140</span>
+        </label>
+      </div>
+
+      <button type="button" class="advanced-toggle" id="advanced-toggle">
+        <span>+ Add advanced measurements (BP, glucose, pain, consciousness)</span>
+        <svg class="adv-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="advanced-panel" id="advanced-panel">
+        <div class="grid-3">
+          <label class="field">
+            <span class="field-label">Diastolic BP <span class="field-unit">mmHg</span></span>
+            <input type="number" name="diastolicBP" min="20" max="200" placeholder="80" inputmode="numeric">
+            <span class="field-help">Normal: 60&ndash;90</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Blood glucose <span class="field-unit">mmol/L</span></span>
+            <input type="number" name="glucose" step="0.1" min="1" max="40" placeholder="5.5" inputmode="decimal">
+            <span class="field-help">Normal: 3.9&ndash;7.8</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Pain score <span class="field-unit">0&ndash;10</span></span>
+            <input type="number" name="painScore" min="0" max="10" placeholder="0" inputmode="numeric">
+            <span class="field-help">0 = none, 10 = worst imaginable</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Consciousness <span class="field-unit">AVPU</span></span>
+            <select name="avpu">
+              <option value="alert">Alert</option>
+              <option value="voice">Responds to voice</option>
+              <option value="pain">Responds to pain</option>
+              <option value="unresponsive">Unresponsive</option>
+            </select>
+            <span class="field-help">Anything below Alert is a danger sign</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. HYDRATION & PERFUSION ============ -->
+    <section class="section">
+      <h2><span class="section-num">5</span> Hydration &amp; perfusion</h2>
+      <p class="section-hint">WHO dehydration assessment signs. Important for children and the elderly.</p>
+      <fieldset class="chips">
+        <legend>Clinical signs</legend>
+        <label class="check"><input type="checkbox" name="clinical" value="sunken_eyes"> Sunken eyes</label>
+        <label class="check"><input type="checkbox" name="clinical" value="skin_tenting"> Skin tenting (slow recoil)</label>
+        <label class="check"><input type="checkbox" name="clinical" value="dry_mucous"> Dry mucous membranes</label>
+        <label class="check"><input type="checkbox" name="clinical" value="delayed_cap_refill"> Capillary refill &gt;3 seconds</label>
+        <label class="check"><input type="checkbox" name="clinical" value="cold_extremities"> Cold extremities</label>
+        <label class="check"><input type="checkbox" name="clinical" value="no_urine_12h"> No urine for &gt;12 hours</label>
+      </fieldset>
+    </section>
+
+    <!-- ============ 6. NOTES ============ -->
+    <section class="section">
+      <h2><span class="section-num">6</span> Additional notes <span style="font-weight:400;color:var(--muted);font-size:.8rem">(optional)</span></h2>
+      <p class="section-hint">Anything else relevant. Do not include names or identifying information.</p>
+      <label class="field">
+        <span class="field-label">Notes</span>
+        <textarea name="notes" rows="3" maxlength="500" placeholder="e.g. symptoms worsened overnight, no improvement with rest&hellip;"></textarea>
+        <span class="field-help">Max 500 characters. Do not enter personal identifiers.</span>
+      </label>
+    </section>
+
+    <!-- ============ SUBMIT ============ -->
+    <div class="submit-bar">
+      <button type="submit" class="cta" id="submit-btn">Generate triage recommendation</button>
+      <p id="form-error" class="error" role="alert" hidden></p>
+      <p class="summary" id="summary">Complete the required fields to continue.</p>
+      <p class="disclaimer-inline">
+        This is a decision-support tool. It does not diagnose disease. If this may be an emergency, call your local emergency number now.
+      </p>
+    </div>
+  </form>
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-ft" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-ft)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <p><strong>MediTriage AI</strong><br>Decision-support for community triage.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/education.html">Education</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+    <p class="footer-copy">&copy; 2025 MediTriage AI &middot; MIT License</p>
+  </div>
+</footer>
+<script src="/js/api.js"></script>
+<script src="/js/assess.js"></script>
+<script src="/js/ui.js"></script>
+</body></html>

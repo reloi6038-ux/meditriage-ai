@@ -1,0 +1,423 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css">
+<title>Reset password &mdash; MediTriage AI</title>
+<style>
+  .auth-page{min-height:calc(100vh - 200px);display:grid;place-items:center;padding:2rem 1rem}
+  .auth-card{
+    width:100%;max-width:440px;background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:2rem;box-shadow:var(--shadow-lg);
+    animation: fadeUp .5s var(--ease) both;
+  }
+  .auth-brand{display:flex;align-items:center;gap:.6rem;margin-bottom:1.5rem;text-decoration:none}
+  .auth-brand .brand-mark{width:40px;height:40px}
+  .auth-brand span{font-size:1.15rem;font-weight:800;color:var(--ink)}
+  .auth-brand em{font-style:normal;color:var(--brand-600)}
+  .auth-card h1{font-size:1.5rem;font-weight:800;margin:0 0 .35rem}
+  .auth-card p.sub{color:var(--muted);font-size:.92rem;margin:0 0 1.5rem;line-height:1.5}
+
+  .step-tabs{
+    display:flex;gap:.4rem;margin-bottom:1.25rem;
+    border-bottom:1px solid var(--border);padding-bottom:.4rem;
+  }
+  .step-tab{
+    padding:.5rem .9rem;border-radius:8px 8px 0 0;
+    border:0;background:transparent;cursor:pointer;
+    font-weight:600;font-size:.88rem;color:var(--muted);
+    transition:color .15s var(--ease),background .15s var(--ease);
+  }
+  .step-tab:hover{background:var(--surface-2);color:var(--ink)}
+  .step-tab.active{
+    color:var(--brand-700);background:var(--surface);
+    box-shadow:inset 0 -2px 0 var(--brand-600);
+  }
+  :root[data-theme="dark"] .step-tab.active{color:var(--brand-400)}
+  .step-tab .step-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:50%;
+    background:var(--surface-2);color:var(--muted);
+    font-size:.72rem;font-weight:800;margin-right:.35rem;
+  }
+  .step-tab.active .step-num{background:var(--brand-600);color:#fff}
+
+  .auth-form{display:grid;gap:.85rem}
+  .auth-field{display:flex;flex-direction:column;gap:.35rem;font-weight:600;font-size:.85rem;color:var(--ink-2)}
+  .auth-field input{
+    padding:.75rem .9rem;border:1.5px solid var(--border);border-radius:10px;
+    font-size:1rem;background:var(--surface-2);color:var(--ink);font-family:inherit;
+    transition:border-color .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .auth-field input:focus{
+    outline:none;border-color:var(--brand-500);background:var(--surface);
+    box-shadow:0 0 0 4px rgba(6,182,212,.15);
+  }
+  .auth-field .hint{font-weight:400;color:var(--muted);font-size:.75rem;margin-top:.15rem}
+
+  .auth-submit{
+    margin-top:.5rem;padding:.85rem 1.2rem;border-radius:10px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--brand-600),var(--brand-700));
+    color:#fff;font-weight:700;font-size:1rem;
+    transition:transform .15s var(--ease),filter .15s var(--ease),opacity .15s var(--ease);
+  }
+  .auth-submit:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.05)}
+  .auth-submit:disabled{opacity:.6;cursor:not-allowed}
+
+  .auth-error{
+    padding:.75rem 1rem;border-radius:10px;
+    background:var(--danger-bg);color:var(--danger);
+    font-size:.88rem;line-height:1.5;animation: shake .4s var(--ease);
+  }
+  .auth-success{
+    padding:.85rem 1rem;border-radius:10px;
+    background:#dcfce7;color:#166534;
+    font-size:.88rem;line-height:1.5;
+  }
+
+  .token-box{
+    margin:.5rem 0 .85rem;padding:.85rem 1rem;
+    background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(16,185,129,.04));
+    border:1px solid rgba(6,182,212,.3);
+    border-radius:10px;
+    font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.78rem;color:var(--brand-800);
+    word-break:break-all;line-height:1.4;
+    user-select:all;
+  }
+  :root[data-theme="dark"] .token-box{color:var(--brand-200)}
+  .token-box .token-label{
+    display:block;font-family:inherit;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;
+    font-size:.7rem;color:var(--brand-700);margin-bottom:.35rem;
+  }
+  :root[data-theme="dark"] .token-box .token-label{color:var(--brand-400)}
+
+  .copy-btn{
+    display:inline-flex;align-items:center;gap:.35rem;
+    padding:.4rem .8rem;border-radius:8px;
+    border:1px solid var(--brand-600);background:transparent;
+    color:var(--brand-700);font-weight:600;font-size:.82rem;
+    cursor:pointer;margin-top:.5rem;
+    transition:background .15s var(--ease);
+  }
+  .copy-btn:hover{background:var(--brand-50)}
+  :root[data-theme="dark"] .copy-btn{color:var(--brand-400);border-color:var(--brand-500)}
+  :root[data-theme="dark"] .copy-btn:hover{background:rgba(34,211,238,.1)}
+
+  .pw-meter{display:flex;gap:.25rem;margin-top:.35rem}
+  .pw-meter .seg{height:4px;flex:1;border-radius:2px;background:var(--surface-2);transition:background .2s var(--ease)}
+  .pw-meter .seg.on-weak{background:#dc2626}
+  .pw-meter .seg.on-fair{background:#f59e0b}
+  .pw-meter .seg.on-good{background:#16a34a}
+
+  .auth-alt{
+    margin-top:1.5rem;padding-top:1.5rem;
+    border-top:1px solid var(--border);
+    text-align:center;font-size:.9rem;color:var(--muted);
+  }
+  .auth-alt a{color:var(--brand-600);font-weight:600;text-decoration:none}
+  .auth-alt a:hover{text-decoration:underline}
+
+  .step-panel{display:none}
+  .step-panel.active{display:block;animation:fadeUp .3s var(--ease) both}
+
+  .dev-note{
+    margin-top:1rem;padding:.65rem .85rem;border-radius:8px;
+    background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);
+    font-size:.78rem;color:#92400e;line-height:1.5;
+  }
+  :root[data-theme="dark"] .dev-note{color:#fcd34d;background:rgba(245,158,11,.12)}
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg-brand-rst" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-rst)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <a class="auth-brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg-brand-rst2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-rst2)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <span>MediTriage<em>AI</em></span>
+    </a>
+
+    <h1>Reset your password</h1>
+    <p class="sub">Enter your email to receive a reset token, then use it to set a new password.</p>
+
+    <div class="step-tabs" role="tablist">
+      <button class="step-tab active" id="tab-step1" role="tab" aria-selected="true" data-step="1">
+        <span class="step-num">1</span> Request
+      </button>
+      <button class="step-tab" id="tab-step2" role="tab" aria-selected="false" data-step="2">
+        <span class="step-num">2</span> Set password
+      </button>
+    </div>
+
+    <!-- Step 1: Request reset token -->
+    <section class="step-panel active" id="panel-step1">
+      <div id="step1-error" class="auth-error" hidden role="alert"></div>
+
+      <form id="step1-form" class="auth-form" novalidate>
+        <label class="auth-field">
+          Email
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+        </label>
+        <button type="submit" class="auth-submit" id="step1-submit">Send reset token</button>
+      </form>
+
+      <div id="step1-result" hidden>
+        <div class="auth-success" style="margin-top:1rem">
+          If an account exists for that email, a reset token has been created.
+        </div>
+        <div class="token-box" id="token-box" style="margin-top:.85rem">
+          <span class="token-label">Your reset token</span>
+          <span id="token-value">—</span>
+          <br>
+          <button type="button" class="copy-btn" id="copy-token">Copy token</button>
+          <button type="button" class="copy-btn" id="use-token" style="margin-left:.35rem">Use this token →</button>
+        </div>
+        <div class="dev-note">
+          <strong>Developer note:</strong> the backend returns the raw reset token directly in non-production for easy local testing. In production, wire an email provider (SendGrid, SES, etc.) to send this token as a link instead.
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Confirm reset -->
+    <section class="step-panel" id="panel-step2">
+      <div id="step2-error" class="auth-error" hidden role="alert"></div>
+
+      <form id="step2-form" class="auth-form" novalidate>
+        <label class="auth-field">
+          Reset token
+          <input type="text" name="token" required autocomplete="off" placeholder="Paste the reset token here" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem">
+          <span class="hint">Paste the token you received from step 1.</span>
+        </label>
+
+        <label class="auth-field">
+          New password
+          <input type="password" name="password" required autocomplete="new-password" placeholder="At least 8 characters" minlength="8">
+          <div class="pw-meter" id="pw-meter" aria-hidden="true">
+            <div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+          </div>
+          <span class="hint" id="pw-hint">Use at least 8 characters.</span>
+        </label>
+
+        <button type="submit" class="auth-submit" id="step2-submit">Set new password</button>
+      </form>
+
+      <div id="step2-success" class="auth-success" hidden style="margin-top:1rem">
+        ✓ Password updated. Redirecting to sign in…
+      </div>
+    </section>
+
+    <div class="auth-alt">
+      Remembered it? <a href="/login.html">Back to sign in →</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+  </div>
+</footer>
+
+<script src="/js/auth.js"></script>
+<script src="/js/ui.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ---- Tab switching ----
+  function activateStep(n) {
+    document.querySelectorAll('.step-tab').forEach(function (t) {
+      var active = t.getAttribute('data-step') === String(n);
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('.step-panel').forEach(function (p) {
+      p.classList.toggle('active', p.id === 'panel-step' + n);
+    });
+  }
+  document.querySelectorAll('.step-tab').forEach(function (t) {
+    t.addEventListener('click', function () { activateStep(t.getAttribute('data-step')); });
+  });
+
+  // ---- Step 1: request token ----
+  var step1Form = document.getElementById('step1-form');
+  var step1Err  = document.getElementById('step1-error');
+  var step1Btn  = document.getElementById('step1-submit');
+  var step1Result = document.getElementById('step1-result');
+  var tokenBox  = document.getElementById('token-box');
+  var tokenVal  = document.getElementById('token-value');
+  var currentToken = '';
+
+  step1Form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    step1Err.hidden = true;
+    step1Btn.disabled = true;
+    step1Btn.textContent = 'Sending…';
+
+    var email = (step1Form.elements.email.value || '').trim().toLowerCase();
+    if (!email) {
+      step1Err.textContent = 'Please enter your email.';
+      step1Err.hidden = false;
+      step1Btn.disabled = false;
+      step1Btn.textContent = 'Send reset token';
+      return;
+    }
+
+    try {
+      var r = await fetch('/api/v1/auth/reset/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      });
+      var j = await r.json();
+      if (!r.ok) throw new Error((j.details && j.details[0]) || j.error || 'Request failed');
+
+      // Backend returns the raw token only in non-production
+      if (j.data && j.data.token) {
+        currentToken = j.data.token;
+        tokenVal.textContent = currentToken;
+        tokenBox.style.display = 'block';
+      } else {
+        // Production: token was emailed, hide the box
+        tokenBox.style.display = 'none';
+      }
+      step1Result.hidden = false;
+    } catch (err) {
+      step1Err.textContent = err.message;
+      step1Err.hidden = false;
+    } finally {
+      step1Btn.disabled = false;
+      step1Btn.textContent = 'Send reset token';
+    }
+  });
+
+  // Copy token button
+  document.getElementById('copy-token').addEventListener('click', async function () {
+    if (!currentToken) return;
+    try {
+      await navigator.clipboard.writeText(currentToken);
+      var btn = document.getElementById('copy-token');
+      btn.textContent = '✓ Copied';
+      setTimeout(function () { btn.textContent = 'Copy token'; }, 1500);
+    } catch (_) {
+      // Fallback for older browsers
+      var range = document.createRange();
+      range.selectNodeContents(tokenVal);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+    }
+  });
+
+  // Use this token button
+  document.getElementById('use-token').addEventListener('click', function () {
+    if (!currentToken) return;
+    document.getElementById('step2-form').elements.token.value = currentToken;
+    activateStep(2);
+  });
+
+  // ---- Step 2: confirm ----
+  var step2Form = document.getElementById('step2-form');
+  var step2Err  = document.getElementById('step2-error');
+  var step2Btn  = document.getElementById('step2-submit');
+  var step2Ok   = document.getElementById('step2-success');
+  var pwInput   = step2Form.querySelector('input[name="password"]');
+  var meter     = document.getElementById('pw-meter');
+  var hint      = document.getElementById('pw-hint');
+
+  function pwScore(p) {
+    var s = 0;
+    if (p.length >= 8) s++;
+    if (p.length >= 12) s++;
+    if (/[A-Z]/.test(p) && /[a-z]/.test(p)) s++;
+    if (/[0-9]/.test(p) && /[^A-Za-z0-9]/.test(p)) s++;
+    return s;
+  }
+  pwInput.addEventListener('input', function () {
+    var s = pwScore(pwInput.value);
+    meter.querySelectorAll('.seg').forEach(function (seg, i) {
+      seg.className = 'seg' + (i < s ? ' on-' + (s <= 1 ? 'weak' : s <= 2 ? 'fair' : 'good') : '');
+    });
+    hint.textContent = s === 0 ? 'Use at least 8 characters.'
+      : s === 1 ? 'Weak — add length and variety.'
+      : s === 2 ? 'Fair — add a number or symbol.'
+      : s === 3 ? 'Good password.'
+      : 'Strong password.';
+  });
+
+  step2Form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    step2Err.hidden = true;
+    step2Btn.disabled = true;
+    step2Btn.textContent = 'Updating…';
+
+    var token = (step2Form.elements.token.value || '').trim();
+    var password = step2Form.elements.password.value || '';
+
+    if (!token) {
+      step2Err.textContent = 'Please paste your reset token.';
+      step2Err.hidden = false;
+      step2Btn.disabled = false;
+      step2Btn.textContent = 'Set new password';
+      return;
+    }
+    if (password.length < 8) {
+      step2Err.textContent = 'Password must be at least 8 characters.';
+      step2Err.hidden = false;
+      step2Btn.disabled = false;
+      step2Btn.textContent = 'Set new password';
+      return;
+    }
+
+    try {
+      var r = await fetch('/api/v1/auth/reset/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: token, password: password })
+      });
+      var j = await r.json();
+      if (!r.ok) throw new Error((j.details && j.details[0]) || j.error || 'Reset failed');
+
+      step2Form.hidden = true;
+      step2Ok.hidden = false;
+      setTimeout(function () { location.href = '/login.html?reset=1'; }, 1400);
+    } catch (err) {
+      step2Err.textContent = err.message;
+      step2Err.hidden = false;
+      step2Btn.disabled = false;
+      step2Btn.textContent = 'Set new password';
+    }
+  });
+
+  // Auto-step: if URL has ?token=, go to step 2 with it prefilled
+  var urlToken = new URLSearchParams(location.search).get('token');
+  if (urlToken) {
+    step2Form.elements.token.value = urlToken;
+    activateStep(2);
+  }
+})();
+</script>
+</body></html>

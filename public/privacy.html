@@ -1,0 +1,492 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css"><title>Privacy &mdash; MediTriage AI</title>
+<style>
+  .privacy-page{max-width:900px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 4rem}
+
+  .privacy-hero{
+    padding:clamp(2rem,4vw,3rem) 1.25rem;
+    text-align:center;border-radius:var(--radius-lg);
+    background:
+      radial-gradient(700px 300px at 20% 0%, rgba(34,211,238,.12), transparent 60%),
+      radial-gradient(700px 300px at 80% 100%, rgba(16,185,129,.10), transparent 60%),
+      var(--surface);
+    box-shadow:var(--shadow);margin-bottom:2rem;
+  }
+  .privacy-hero h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 .75rem;letter-spacing:-.02em}
+  .privacy-hero p{color:var(--muted);max-width:600px;margin:0 auto;line-height:1.6;font-size:.98rem}
+
+  .privacy-meta{
+    display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;
+    margin-top:1rem;color:var(--muted);font-size:.82rem;font-weight:600;
+  }
+  .privacy-meta span{display:inline-flex;align-items:center;gap:.35rem}
+  .privacy-meta svg{width:14px;height:14px;color:var(--brand-600)}
+
+  .toc{
+    display:flex;flex-wrap:wrap;gap:.4rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;margin-bottom:1.5rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .toc-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;width:100%;margin-bottom:.35rem}
+  .toc a{
+    padding:.45rem .85rem;border-radius:8px;
+    background:var(--surface-2);color:var(--ink-2);
+    font-size:.82rem;font-weight:500;text-decoration:none;
+    transition:background .15s var(--ease),color .15s var(--ease);
+  }
+  .toc a:hover{background:var(--brand-50);color:var(--brand-700);text-decoration:none}
+  :root[data-theme="dark"] .toc a:hover{background:rgba(34,211,238,.15);color:var(--brand-300,#67e8f9)}
+
+  .privacy-section{margin:2.5rem 0}
+  .privacy-section h2{
+    display:flex;align-items:center;gap:.6rem;
+    font-size:clamp(1.15rem,2.4vw,1.4rem);margin:0 0 .75rem;
+  }
+  .privacy-section h2 .icon{
+    display:inline-flex;width:32px;height:32px;
+    align-items:center;justify-content:center;border-radius:10px;
+    background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    color:#fff;font-size:.95rem;flex-shrink:0;
+  }
+  .privacy-section > p{
+    color:var(--ink-2);line-height:1.65;margin:0 0 1rem;font-size:.94rem;
+  }
+  .privacy-section > p strong{color:var(--ink)}
+
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .card h3{margin:.1rem 0 .55rem;font-size:1rem;color:var(--ink)}
+  .card p{margin:0 0 .55rem;color:var(--ink-2);line-height:1.6;font-size:.92rem}
+  .card p:last-child{margin-bottom:0}
+  .card ul{margin:.5rem 0 0;padding-left:1.25rem}
+  .card li{margin:.3rem 0;color:var(--ink-2);line-height:1.55;font-size:.9rem}
+
+  /* Data table */
+  .data-table{
+    width:100%;border-collapse:collapse;font-size:.85rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+    margin-bottom:1rem;
+  }
+  .data-table th{
+    background:var(--surface-2);text-align:left;
+    padding:.65rem .85rem;font-weight:700;color:var(--ink-2);
+    border-bottom:1px solid var(--border);font-size:.78rem;
+    text-transform:uppercase;letter-spacing:.03em;
+  }
+  .data-table td{
+    padding:.65rem .85rem;border-bottom:1px solid var(--border);
+    color:var(--ink-2);line-height:1.5;vertical-align:top;
+  }
+  .data-table tr:last-child td{border-bottom:0}
+  .data-table tr:hover td{background:var(--surface-2)}
+  .data-table code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.82em;background:var(--surface-2);
+    padding:.1rem .35rem;border-radius:4px;color:var(--brand-700);
+  }
+  :root[data-theme="dark"] .data-table code{background:rgba(34,211,238,.12);color:var(--brand-300,#67e8f9)}
+
+  /* Roles grid */
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-top:1rem}
+  .role-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:1rem 1.1rem;
+    border-left:4px solid var(--accent,var(--brand-600));
+  }
+  .role-card h4{margin:0 0 .35rem;font-size:.92rem;display:flex;align-items:center;gap:.4rem}
+  .role-card h4 .role-icon{
+    display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;
+    border-radius:6px;background:var(--brand-50);color:var(--brand-700);font-size:.72rem;
+  }
+  :root[data-theme="dark"] .role-card h4 .role-icon{background:rgba(34,211,238,.12);color:var(--brand-400)}
+  .role-card p{margin:0;color:var(--ink-2);font-size:.85rem;line-height:1.55}
+
+  /* Rights list */
+  .rights{display:grid;gap:.65rem;margin-top:1rem}
+  .right-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:.85rem 1rem;
+  }
+  .right-item .right-icon{
+    flex-shrink:0;width:28px;height:28px;
+    display:inline-flex;align-items:center;justify-content:center;
+    border-radius:8px;background:var(--brand-50);color:var(--brand-700);
+    font-size:.8rem;font-weight:800;
+  }
+  :root[data-theme="dark"] .right-item .right-icon{background:rgba(34,211,238,.12);color:var(--brand-400)}
+  .right-item .right-body{flex:1}
+  .right-item h4{margin:0 0 .2rem;font-size:.9rem;color:var(--ink)}
+  .right-item p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.5}
+  .right-item code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.82em;background:var(--surface-2);padding:.1rem .4rem;
+    border-radius:4px;color:var(--brand-700);
+  }
+  :root[data-theme="dark"] .right-item code{background:rgba(34,211,238,.12);color:var(--brand-300,#67e8f9)}
+
+  /* Notice callouts */
+  .notice{
+    padding:1rem 1.2rem;border-radius:var(--radius);margin:1rem 0;
+    border-left:4px solid;
+    font-size:.9rem;line-height:1.55;
+  }
+  .notice.info{background:rgba(6,182,212,.06);border-color:#0891b2;color:var(--ink-2)}
+  .notice.warn{background:rgba(245,158,11,.06);border-color:#f59e0b;color:var(--ink-2)}
+  .notice.ok{background:rgba(16,185,129,.06);border-color:#10b981;color:var(--ink-2)}
+  .notice strong{color:var(--ink)}
+
+  /* Contact */
+  .contact-card{
+    background:linear-gradient(135deg, rgba(6,182,212,.06), rgba(16,185,129,.04));
+    border:1px solid rgba(6,182,212,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-top:1rem;
+  }
+  .contact-card h3{margin:0 0 .5rem;font-size:1rem;display:flex;align-items:center;gap:.5rem}
+  .contact-card p{margin:0 0 .5rem;color:var(--ink-2);font-size:.9rem;line-height:1.6}
+  .contact-card a{color:var(--brand-700);font-weight:600}
+  :root[data-theme="dark"] .contact-card a{color:var(--brand-400)}
+
+  /* Disclaimer card */
+  .disclaimer-card{
+    background:linear-gradient(135deg, rgba(220,38,38,.05), rgba(220,38,38,.02));
+    border:1px solid rgba(220,38,38,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-top:2rem;
+  }
+  .disclaimer-card h3{display:flex;align-items:center;gap:.5rem;margin:0 0 .5rem;color:#b91c1c;font-size:1rem}
+  .disclaimer-card p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6}
+  .disclaimer-card strong{color:var(--ink)}
+
+  @media (max-width:640px){
+    .data-table{font-size:.8rem}
+    .data-table th,.data-table td{padding:.5rem .6rem}
+  }
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="/assess.html" data-nav>Assess</a></li>
+    <li><a href="/dashboard.html" data-nav>Dashboard</a></li>
+    <li><a href="/history.html" data-nav>History</a></li>
+    <li><a href="/education.html" data-nav>Education</a></li>
+    <li><a href="/about.html" data-nav>About</a></li>
+  </ul>
+</nav>
+<main class="privacy-page">
+
+<!-- HERO -->
+<section class="privacy-hero" data-reveal>
+  <h1>Privacy policy</h1>
+  <p>Exactly what data MediTriage AI collects, why, who can see it, and how you can delete it. No tracking, no ad tech, no PII by default.</p>
+  <div class="privacy-meta">
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      No third-party trackers
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      No advertising
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L3 7v6c0 5 4 9 9 11 5-2 9-6 9-11V7z"/></svg>
+      Self-deletable data
+    </span>
+  </div>
+</section>
+
+<!-- TOC -->
+<nav class="toc" data-reveal aria-label="Page sections">
+  <span class="toc-label">On this page</span>
+  <a href="#summary">Summary</a>
+  <a href="#collected">What we collect</a>
+  <a href="#storage">Storage &amp; security</a>
+  <a href="#access">Who can access</a>
+  <a href="#email">Email</a>
+  <a href="#rights">Your rights</a>
+  <a href="#cookies">Cookies</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- SUMMARY -->
+<section class="privacy-section" id="summary" data-reveal>
+  <h2><span class="icon">✓</span> In one paragraph</h2>
+  <p>We collect only what we need to run a triage assessment: age group, optional sex, symptoms, optional vitals, and an optional account email. We do <strong>not</strong> collect names, addresses, phone numbers, IP addresses, device fingerprints, or any health record identifiers. There is no analytics, no tracking pixel, no ad network, no external AI service. Everything runs on this server and your device. You can delete your assessments and account from inside the app at any time.</p>
+</section>
+
+<!-- WHAT WE COLLECT -->
+<section class="privacy-section" id="collected" data-reveal>
+  <h2><span class="icon">📋</span> What we collect</h2>
+  <p>Every field is listed below with its purpose, where it goes, and how long we keep it. Nothing else is collected.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Why</th>
+        <th>Where</th>
+        <th>Retention</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Age group</strong> (e.g. <code>40-64</code>)</td>
+        <td>Age-specific thresholds for vitals and danger signs</td>
+        <td>MongoDB (assessment) + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Sex</strong> (optional)</td>
+        <td>Refines baseline risk for some conditions</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Pregnancy status</strong> (optional)</td>
+        <td>Escalates risk when combined with fever or abdominal symptoms</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Symptoms</strong></td>
+        <td>Core input for the triage engine</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Vital signs</strong> (temperature, heart rate, blood pressure, oxygen saturation, respiratory rate, blood glucose, pain score, consciousness level) — all optional</td>
+        <td>Improves accuracy; more data means more confident triage</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Clinical signs</strong> (e.g. sunken eyes, skin tenting)</td>
+        <td>WHO hydration/perfusion assessment</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Free-text notes</strong> (max 500 chars, optional)</td>
+        <td>Context for the assessment</td>
+        <td>MongoDB + your device</td>
+        <td>Until you delete it</td>
+      </tr>
+      <tr>
+        <td><strong>Email + password hash</strong> (only if you register)</td>
+        <td>Account access and history sync</td>
+        <td>MongoDB (<code>passwordHash</code> is bcrypt, never the plain password)</td>
+        <td>Until you delete your account</td>
+      </tr>
+      <tr>
+        <td><strong>Display name</strong> (optional, only if you register)</td>
+        <td>Shown in the nav when you're signed in</td>
+        <td>MongoDB</td>
+        <td>Until you delete your account</td>
+      </tr>
+      <tr>
+        <td><strong>Audit log entries</strong> (login, rule changes, etc.)</td>
+        <td>Security and clinical oversight</td>
+        <td>MongoDB (<code>audit</code> collection)</td>
+        <td>Until admin rotates the log</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="notice ok">
+    <strong>What we never collect:</strong> names, addresses, phone numbers, IP addresses (logged only by the hosting platform for 24h for abuse prevention), device fingerprints, browser cookies, tracking IDs, GPS, insurance numbers, national IDs, or the content of any other app on your device.
+  </div>
+</section>
+
+<!-- STORAGE & SECURITY -->
+<section class="privacy-section" id="storage" data-reveal>
+  <h2><span class="icon">🔒</span> Storage &amp; security</h2>
+  <div class="card">
+    <h3>Where data lives</h3>
+    <p>Assessment records and account records are stored in <strong>MongoDB Atlas</strong>, with encryption at rest and TLS in transit. The server is hosted on <strong>Render</strong> (or your own infrastructure if you self-host this open-source project).</p>
+  </div>
+  <div class="card">
+    <h3>How we protect it</h3>
+    <ul>
+      <li><strong>Passwords</strong> are hashed with bcrypt (10 rounds) — the plain password is never stored or logged.</li>
+      <li><strong>Reset tokens</strong> are hashed with SHA-256 before storage — the raw token exists only in the email we send you.</li>
+      <li><strong>Session tokens (JWT)</strong> are signed with a secret that is unique per deployment, expire in 7 days, and are not stored server-side.</li>
+      <li><strong>Input validation</strong> uses Joi with strict schema; unknown fields are dropped.</li>
+      <li><strong>Rate limiting</strong> is applied to auth and assessment endpoints.</li>
+      <li><strong>Security headers</strong> are set via Helmet (X-Frame-Options, X-Content-Type-Options, etc.).</li>
+    </ul>
+  </div>
+  <div class="notice info">
+    <strong>Bug bounty:</strong> If you find a security vulnerability, please report it privately via the GitHub repository's Security tab rather than opening a public issue.
+  </div>
+</section>
+
+<!-- WHO CAN ACCESS -->
+<section class="privacy-section" id="access" data-reveal>
+  <h2><span class="icon">👥</span> Who can access your data</h2>
+  <p>Access is strictly scoped by role. There is no "support can see everything" backdoor.</p>
+  <div class="roles">
+    <div class="role-card" style="--accent:#0891b2">
+      <h4><span class="role-icon">A</span> Anonymous users</h4>
+      <p>Assessments are stored on <strong>your device only</strong> (localStorage). Nothing is sent to our server beyond the triage result you see on screen. Reference lookup works via the reference code, which you must know.</p>
+    </div>
+    <div class="role-card" style="--accent:#16a34a">
+      <h4><span class="role-icon">U</span> Signed-in users</h4>
+      <p>You can see <strong>only your own</strong> assessments. You cannot see other users' data. You can delete any of your assessments or your entire account from the History page.</p>
+    </div>
+    <div class="role-card" style="--accent:#ea580c">
+      <h4><span class="role-icon">Ad</span> Administrators</h4>
+      <p>Admins can see aggregate statistics, the list of users (email + display name only), and the audit log. They <strong>cannot</strong> see individual users' assessment content unless a specific support investigation is warranted — and every admin action is recorded in the audit log.</p>
+    </div>
+    <div class="role-card" style="--accent:#64748b">
+      <h4><span class="role-icon">3</span> Third parties</h4>
+      <p>None. No analytics, no CDN, no ad network, no LLM provider, no third-party logging. Everything runs on our server and your device.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL -->
+<section class="privacy-section" id="email" data-reveal>
+  <h2><span class="icon">📧</span> Email</h2>
+  <div class="card">
+    <h3>What we send</h3>
+    <ul>
+      <li><strong>Password reset emails</strong> — only when you request one from <code>/reset.html</code>. Contains your reset link and token, valid for 60 minutes.</li>
+      <li>That's it. No marketing, no newsletters, no "we miss you" emails.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>How we send it</h3>
+    <p>Reset emails are delivered via <strong>SMTP</strong> using a transactional email provider (SendGrid, Mailgun, Postmark, AWS SES, or Gmail). Your email address is shared with that provider only for the purpose of delivering the message. No tracking pixels, no read receipts, no click tracking.</p>
+  </div>
+</section>
+
+<!-- YOUR RIGHTS -->
+<section class="privacy-section" id="rights" data-reveal>
+  <h2><span class="icon">⚖️</span> Your rights</h2>
+  <p>You can exercise these rights directly inside the app or through the API — no email support required.</p>
+  <div class="rights">
+    <div class="right-item">
+      <span class="right-icon">V</span>
+      <div class="right-body">
+        <h4>View everything we store about you</h4>
+        <p>Signed-in users can view all their assessments on the History page → "My account" tab. For full export of raw data, use <code>GET /api/v1/assessments</code> with your JWT.</p>
+      </div>
+    </div>
+    <div class="right-item">
+      <span class="right-icon">D</span>
+      <div class="right-body">
+        <h4>Delete individual assessments</h4>
+        <p>On the History page, each assessment has a <strong>Remove</strong> button (local) or <strong>Delete</strong> button (server) that permanently removes it.</p>
+      </div>
+    </div>
+    <div class="right-item">
+      <span class="right-icon">X</span>
+      <div class="right-body">
+        <h4>Delete your entire account</h4>
+        <p>Issue <code>DELETE /api/v1/auth/account</code> with your JWT. This permanently deletes your account <strong>and all your assessments</strong>. This action cannot be undone.</p>
+      </div>
+    </div>
+    <div class="right-item">
+      <span class="right-icon">O</span>
+      <div class="right-body">
+        <h4>Object to processing</h4>
+        <p>You can use the app fully anonymously — no account required. Assessment data stays on your device only. This is the strictest form of opt-out we can offer.</p>
+      </div>
+    </div>
+    <div class="right-item">
+      <span class="right-icon">P</span>
+      <div class="right-body">
+        <h4>Portability</h4>
+        <p>Every result page has a <strong>Raw JSON</strong> button that downloads your full assessment in machine-readable JSON. Use this to export your data anywhere.</p>
+      </div>
+    </div>
+  </div>
+  <div class="notice info">
+    <strong>GDPR / CCPA:</strong> If you're in the EU, UK, California, Brazil, or another jurisdiction with data-protection laws, these rights are your statutory rights, not just a company policy. The endpoints above are the technical implementation.
+  </div>
+</section>
+
+<!-- COOKIES -->
+<section class="privacy-section" id="cookies" data-reveal>
+  <h2><span class="icon">🍪</span> Cookies &amp; local storage</h2>
+  <div class="card">
+    <h3>No cookies</h3>
+    <p>This app does not set any HTTP cookies. No <code>Set-Cookie</code> headers, no session cookies, no tracking cookies.</p>
+  </div>
+  <div class="card">
+    <h3>What we use instead (localStorage)</h3>
+    <p>Your browser's localStorage stores four small pieces of data, all scoped to this domain and all under your control:</p>
+    <ul>
+      <li><code>mt-history</code> — your assessment history on this device (up to 100 entries; delete any entry at any time)</li>
+      <li><code>mt-token</code> — your sign-in JWT (only if you signed in)</li>
+      <li><code>mt-user</code> — your email and display name (only if you signed in)</li>
+      <li><code>mt-theme</code> — your light/dark mode preference</li>
+    </ul>
+    <p style="margin-top:.6rem">You can clear all of these by clearing site data in your browser settings. The app will still work — you'll just be signed out and your local history will be reset.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="privacy-section" id="contact" data-reveal>
+  <h2><span class="icon">💬</span> Contact</h2>
+  <div class="contact-card">
+    <h3>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      How to reach us
+    </h3>
+    <p><strong>Privacy questions, data deletion requests, or security reports:</strong> open an issue in the GitHub repository (link in the footer). For security vulnerabilities, please use GitHub's private Security advisory feature instead of a public issue.</p>
+    <p style="font-size:.82rem;color:var(--muted)">This is an open-source project. If you're using a deployment hosted by a specific clinic or organization, contact them directly for data requests.</p>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-card" data-reveal>
+  <h3><span aria-hidden="true">⚠</span> Medical disclaimer</h3>
+  <p><strong>MediTriage AI is a decision-support and educational tool.</strong> It does not diagnose disease and is not a substitute for professional medical advice. The privacy protections described here apply to the data you enter into this app — but any data you share with a healthcare provider is governed by <em>their</em> privacy policy, not ours. In an emergency, contact your local emergency number immediately.</p>
+</div>
+
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-ft" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-ft)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <p><strong>MediTriage AI</strong><br>Decision-support for community triage.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/education.html">Education</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+    <p class="footer-copy">&copy; 2025 MediTriage AI &middot; MIT License</p>
+  </div>
+</footer>
+<script src="/js/auth.js"></script>
+<script src="/js/ui.js"></script>
+</body></html>

@@ -1,0 +1,608 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css"><title>Health education &mdash; MediTriage AI</title>
+<style>
+  .edu-page{max-width:960px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 4rem}
+
+  /* Hero */
+  .edu-hero{
+    padding:clamp(2rem,4vw,3rem) 1.25rem;
+    text-align:center;border-radius:var(--radius-lg);
+    background:
+      radial-gradient(700px 300px at 20% 0%, rgba(34,211,238,.12), transparent 60%),
+      radial-gradient(700px 300px at 80% 100%, rgba(16,185,129,.10), transparent 60%),
+      var(--surface);
+    box-shadow:var(--shadow);margin-bottom:2rem;
+  }
+  .edu-hero h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 .75rem;letter-spacing:-.02em}
+  .edu-hero p{color:var(--muted);max-width:600px;margin:0 auto;line-height:1.6;font-size:.98rem}
+
+  /* Table of contents */
+  .toc{
+    display:flex;flex-wrap:wrap;gap:.4rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;margin-bottom:1.5rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .toc-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;width:100%;margin-bottom:.35rem}
+  .toc a{
+    padding:.45rem .85rem;border-radius:8px;
+    background:var(--surface-2);color:var(--ink-2);
+    font-size:.85rem;font-weight:500;text-decoration:none;
+    transition:background .15s var(--ease),color .15s var(--ease);
+  }
+  .toc a:hover{background:var(--brand-50);color:var(--brand-700);text-decoration:none}
+  :root[data-theme="dark"] .toc a:hover{background:rgba(34,211,238,.15);color:var(--brand-300,#67e8f9)}
+
+  /* Sections */
+  .edu-section{margin:2.5rem 0}
+  .edu-section h2{
+    display:flex;align-items:center;gap:.6rem;
+    font-size:clamp(1.2rem,2.4vw,1.5rem);margin:0 0 .5rem;
+  }
+  .edu-section h2 .icon{
+    display:inline-flex;width:34px;height:34px;
+    align-items:center;justify-content:center;border-radius:10px;
+    background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    color:#fff;font-size:1rem;flex-shrink:0;
+  }
+  .edu-section > p.lead{
+    color:var(--muted);font-size:.95rem;line-height:1.6;margin:0 0 1.25rem;
+  }
+
+  /* Emergency signs grid */
+  .signs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
+  .sign-card{
+    display:flex;gap:.85rem;align-items:flex-start;
+    background:linear-gradient(135deg, rgba(185,28,28,.06), rgba(185,28,28,.02));
+    border:1px solid rgba(185,28,28,.3);
+    border-radius:var(--radius);padding:1.1rem;
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .sign-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(185,28,28,.15)}
+  .sign-card .sign-icon{
+    flex-shrink:0;width:38px;height:38px;border-radius:10px;
+    background:#b91c1c;color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:800;
+  }
+  .sign-card h3{margin:0 0 .3rem;font-size:.98rem;color:#7f1d1d}
+  :root[data-theme="dark"] .sign-card h3{color:#fecaca}
+  .sign-card p{margin:0;color:var(--ink-2);font-size:.86rem;line-height:1.5}
+
+  /* Symptom accordion */
+  .symptoms{display:grid;gap:.6rem}
+  .symptom{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+    transition:box-shadow .2s var(--ease);
+  }
+  .symptom[open]{box-shadow:var(--shadow-sm)}
+  .symptom summary{
+    display:flex;align-items:center;gap:.7rem;
+    padding:1rem 1.1rem;cursor:pointer;
+    font-weight:600;font-size:.98rem;
+    list-style:none;
+    transition:background .15s var(--ease);
+  }
+  .symptom summary::-webkit-details-marker{display:none}
+  .symptom summary:hover{background:var(--surface-2)}
+  .symptom summary .sym-icon{
+    flex-shrink:0;width:32px;height:32px;border-radius:8px;
+    background:var(--brand-50);color:var(--brand-700);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:.95rem;
+  }
+  :root[data-theme="dark"] .symptom summary .sym-icon{background:rgba(34,211,238,.12);color:var(--brand-400)}
+  .symptom summary .chev{
+    margin-left:auto;transition:transform .2s var(--ease);color:var(--muted);
+  }
+  .symptom[open] summary .chev{transform:rotate(180deg)}
+  .symptom .sym-body{
+    padding:0 1.1rem 1.1rem 1.1rem;
+    color:var(--ink-2);font-size:.9rem;line-height:1.6;
+  }
+  .symptom .sym-body p{margin:.5rem 0}
+  .symptom .sym-body ul{margin:.4rem 0;padding-left:1.2rem}
+  .symptom .sym-body li{margin:.3rem 0}
+
+  /* Triage tiers */
+  .tier{
+    display:flex;gap:.75rem;align-items:flex-start;
+    padding:.75rem .9rem;margin:.5rem 0;
+    border-radius:10px;border-left:4px solid;
+  }
+  .tier.emergency{background:rgba(185,28,28,.06);border-color:#b91c1c}
+  .tier.urgent{background:rgba(234,88,12,.06);border-color:#ea580c}
+  .tier.selfcare{background:rgba(22,163,74,.06);border-color:#16a34a}
+  .tier-tag{
+    flex-shrink:0;padding:.2rem .55rem;border-radius:6px;
+    font-size:.72rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+    color:#fff;
+  }
+  .tier.emergency .tier-tag{background:#b91c1c}
+  .tier.urgent .tier-tag{background:#ea580c}
+  .tier.selfcare .tier-tag{background:#16a34a}
+  .tier p{margin:0;font-size:.86rem;color:var(--ink-2);line-height:1.5;flex:1}
+
+  /* Urgency levels reference */
+  .levels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}
+  .level-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.1rem;
+    border-top:4px solid var(--accent,var(--brand-600));
+  }
+  .level-card .level-label{
+    display:inline-block;color:#fff;padding:.2rem .6rem;border-radius:6px;
+    font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:.5rem;
+  }
+  .level-card p{margin:0;color:var(--ink-2);font-size:.85rem;line-height:1.5}
+
+  /* Special populations */
+  .populations{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem;margin-top:1rem}
+  .pop-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.1rem;
+  }
+  .pop-card h4{margin:0 0 .5rem;font-size:.96rem;display:flex;align-items:center;gap:.45rem}
+  .pop-card h4 svg{width:18px;height:18px;color:var(--brand-600)}
+  .pop-card p{margin:0;color:var(--ink-2);font-size:.85rem;line-height:1.55}
+
+  /* Dehydration check */
+  .checklist{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:1rem;
+  }
+  .check-item{
+    display:flex;align-items:flex-start;gap:.55rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:.75rem .9rem;
+    font-size:.86rem;color:var(--ink-2);line-height:1.5;
+  }
+  .check-item::before{
+    content:"\u2713";flex-shrink:0;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--brand-600);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:.7rem;font-weight:800;margin-top:.05rem;
+  }
+
+  /* Mental health callout */
+  .mh-callout{
+    background:linear-gradient(135deg, rgba(6,182,212,.06), rgba(16,185,129,.04));
+    border:1px solid rgba(6,182,212,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-top:1rem;
+  }
+  .mh-callout h3{margin:0 0 .5rem;font-size:1rem;display:flex;align-items:center;gap:.5rem}
+  .mh-callout p{margin:0 0 .5rem;color:var(--ink-2);font-size:.9rem;line-height:1.6}
+  .mh-callout p:last-child{margin:0}
+
+  /* CTA card */
+  .edu-cta{
+    display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;
+    background:linear-gradient(135deg,#0891b2,#0e7490);
+    color:#fff;border-radius:var(--radius-lg);
+    padding:1.75rem;margin:2.5rem 0;
+    box-shadow:0 20px 50px rgba(14,116,144,.35);
+  }
+  .edu-cta h3{margin:0 0 .35rem;color:#fff;font-size:1.15rem}
+  .edu-cta p{margin:0;color:rgba(255,255,255,.85);font-size:.9rem}
+  .edu-cta .cta{background:#fff;color:#0e7490;box-shadow:0 8px 22px rgba(0,0,0,.15)}
+  .edu-cta .cta:hover{background:#f0fdfa;color:#0e7490}
+
+  /* Medical disclaimer */
+  .disclaimer-card{
+    background:linear-gradient(135deg, rgba(220,38,38,.05), rgba(220,38,38,.02));
+    border:1px solid rgba(220,38,38,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-top:1rem;
+  }
+  .disclaimer-card h3{display:flex;align-items:center;gap:.5rem;margin:0 0 .5rem;color:#b91c1c;font-size:1rem}
+  .disclaimer-card p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6}
+  .disclaimer-card strong{color:var(--ink)}
+
+  @media (max-width:640px){
+    .edu-cta{grid-template-columns:1fr}
+    .edu-cta .cta{width:100%;justify-content:center}
+  }
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="/assess.html" data-nav>Assess</a></li>
+    <li><a href="/dashboard.html" data-nav>Dashboard</a></li>
+    <li><a href="/history.html" data-nav>History</a></li>
+    <li><a href="/education.html" data-nav>Education</a></li>
+    <li><a href="/about.html" data-nav>About</a></li>
+  </ul>
+</nav>
+<main class="edu-page">
+
+<!-- HERO -->
+<section class="edu-hero" data-reveal>
+  <h1>Health education &amp; danger signs</h1>
+  <p>Plain-language guidance on the symptoms that matter most &mdash; aligned with the same WHO/IMCI danger signs the triage engine checks. Educational only. Not a diagnosis.</p>
+</section>
+
+<!-- TOC -->
+<nav class="toc" data-reveal aria-label="Page sections">
+  <span class="toc-label">Jump to</span>
+  <a href="#emergency">Emergency signs</a>
+  <a href="#symptoms">Common symptoms</a>
+  <a href="#levels">Triage levels</a>
+  <a href="#populations">Special populations</a>
+  <a href="#dehydration">Dehydration check</a>
+  <a href="#mental">Mental health</a>
+</nav>
+
+<!-- EMERGENCY SIGNS -->
+<section class="edu-section" id="emergency" data-reveal>
+  <h2><span class="icon">!</span> When to call emergency services</h2>
+  <p class="lead">These are <strong>WHO general danger signs</strong> and major clinical red flags. If any apply, call your local emergency number immediately &mdash; do not wait for symptoms to improve on their own.</p>
+  <div class="signs-grid">
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Severe difficulty breathing</h3>
+        <p>Gasping, can&rsquo;t speak in full sentences, blue lips, or struggling to breathe at rest.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Severe chest pain</h3>
+        <p>Crushing pressure, pain radiating to arm/jaw/back, or chest pain with sweating, nausea, or shortness of breath.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Loss of consciousness</h3>
+        <p>Fainting, unresponsiveness, or a seizure that doesn&rsquo;t stop within 5 minutes.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Sudden neurological symptoms</h3>
+        <p>Weakness or drooping on one side, slurred speech, sudden confusion, or sudden vision loss &mdash; think stroke.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Severe uncontrolled bleeding</h3>
+        <p>Bleeding that won&rsquo;t stop with pressure, vomiting blood, or blood in stool/urine.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Severe allergic reaction</h3>
+        <p>Facial or throat swelling, hives with breathing difficulty, or after a known allergen exposure.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Signs of severe dehydration</h3>
+        <p>Sunken eyes, skin tenting, no urine for &gt;12 hours, or lethargy in a child or elderly person.</p>
+      </div>
+    </div>
+    <div class="sign-card">
+      <span class="sign-icon">!</span>
+      <div>
+        <h3>Stiff neck with fever</h3>
+        <p>Neck stiffness plus fever and headache &mdash; think meningitis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYMPTOMS -->
+<section class="edu-section" id="symptoms" data-reveal>
+  <h2><span class="icon">🩺</span> Common symptoms</h2>
+  <p class="lead">Click each symptom for self-care guidance, when to see a doctor, and when to call emergency services. When in doubt, run a triage assessment.</p>
+  <div class="symptoms">
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">🌡</span>
+        <span>Fever</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <p><strong>Adults:</strong> A temperature above 38&deg;C (100.4&deg;F).</p>
+        <div class="tier selfcare">
+          <span class="tier-tag">Self-care</span>
+          <p>Mild fever under 39&deg;C that lasts 1&ndash;2 days in an otherwise healthy adult: fluids, rest, and paracetamol/acetaminophen as directed. Monitor temperature every 4&ndash;6 hours.</p>
+        </div>
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Fever above 39.5&deg;C, lasting more than 3 days, or accompanied by rash, stiff neck, confusion, or breathing difficulty.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>Fever with stiff neck, confusion, seizure, severe headache, or fever in an infant under 3 months.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">💨</span>
+        <span>Cough &amp; cold</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <p>Most coughs and colds are viral and resolve in 7&ndash;10 days.</p>
+        <div class="tier selfcare">
+          <span class="tier-tag">Self-care</span>
+          <p>Rest, fluids, honey for adults and children over 1 year, and humidified air. Antibiotics do not help viral colds.</p>
+        </div>
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Cough lasting more than 3 weeks, coughing blood, fever above 39&deg;C, or worsening after initial improvement.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>Shortness of breath at rest, chest pain, blue lips, or severe difficulty speaking in sentences.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">💧</span>
+        <span>Diarrhea &amp; vomiting</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <p>Most diarrhea is viral and resolves in 1&ndash;3 days. Hydration is the priority.</p>
+        <div class="tier selfcare">
+          <span class="tier-tag">Self-care</span>
+          <p>Oral rehydration solution (ORS), small frequent sips, and continue eating if able. Avoid very sugary drinks.</p>
+        </div>
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Blood in stool, severe abdominal pain, signs of dehydration, or diarrhea lasting more than 48 hours in a child.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>Unable to keep any fluids down, no urine for &gt;8 hours, confusion, or severe lethargy.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">💓</span>
+        <span>Chest pain</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <p><strong>Chest pain always needs careful assessment.</strong> Cardiac causes are the most urgent to rule out.</p>
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Sharp pain that worsens with breathing (often muscular), acid reflux sensation, or pain only with movement.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>Crushing or pressure sensation, pain radiating to arm/jaw/back, pain with sweating or nausea, or chest pain with shortness of breath. <strong>Call emergency services immediately.</strong></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">🧠</span>
+        <span>Severe headache</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <div class="tier selfcare">
+          <span class="tier-tag">Self-care</span>
+          <p>Tension-type headache: hydration, rest, over-the-counter pain relief, and stress management.</p>
+        </div>
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Frequent or worsening headaches, or a new headache in someone over 50.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>&ldquo;Worst headache of my life,&rdquo; headache with fever and stiff neck, headache with confusion, weakness, or vision changes, or headache after a head injury.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="symptom">
+      <summary>
+        <span class="sym-icon">🫁</span>
+        <span>Shortness of breath</span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="sym-body">
+        <div class="tier urgent">
+          <span class="tier-tag">See a doctor</span>
+          <p>Breathlessness with exercise or cold air, especially if you have asthma or COPD with a known plan.</p>
+        </div>
+        <div class="tier emergency">
+          <span class="tier-tag">Emergency</span>
+          <p>Breathlessness at rest, inability to speak a full sentence, blue lips, or breathlessness with chest pain or fainting. <strong>Call emergency services immediately.</strong></p>
+        </div>
+      </div>
+    </details>
+
+  </div>
+
+  <div style="margin-top:1.25rem">
+    <a class="cta" href="/assess.html">Run a structured triage assessment &rarr;</a>
+  </div>
+</section>
+
+<!-- TRIAGE LEVELS -->
+<section class="edu-section" id="levels" data-reveal>
+  <h2><span class="icon">5</span> Understanding triage levels</h2>
+  <p class="lead">MediTriage AI returns one of five urgency levels. Here&rsquo;s what each one means and what to do.</p>
+  <div class="levels-grid">
+    <div class="level-card" style="--accent:#b91c1c">
+      <span class="level-label" style="background:#b91c1c">EMERGENCY</span>
+      <p>Seek emergency care immediately. Call your local emergency number. Do not drive yourself.</p>
+    </div>
+    <div class="level-card" style="--accent:#ea580c">
+      <span class="level-label" style="background:#ea580c">URGENT</span>
+      <p>See a clinician within a few hours (2&ndash;6). Don&rsquo;t wait overnight for symptoms that are worsening.</p>
+    </div>
+    <div class="level-card" style="--accent:#ca8a04">
+      <span class="level-label" style="background:#ca8a04">SEMI-URGENT</span>
+      <p>Book a same-day clinical review if symptoms persist or worsen. Monitor for changes.</p>
+    </div>
+    <div class="level-card" style="--accent:#16a34a">
+      <span class="level-label" style="background:#16a34a">NON-URGENT</span>
+      <p>A routine appointment within 3&ndash;7 days is appropriate if you remain concerned.</p>
+    </div>
+    <div class="level-card" style="--accent:#0891b2">
+      <span class="level-label" style="background:#0891b2">SELF-CARE</span>
+      <p>Monitor at home. Seek care if symptoms worsen, don&rsquo;t improve, or new symptoms appear.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIAL POPULATIONS -->
+<section class="edu-section" id="populations" data-reveal>
+  <h2><span class="icon">👥</span> Special populations</h2>
+  <p class="lead">Some groups need care sooner than the general population, even with mild symptoms.</p>
+  <div class="populations">
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+        Infants under 3 months
+      </h4>
+      <p>Any fever above 38&deg;C in a baby under 3 months is a medical emergency. Call emergency services or go to the nearest pediatric emergency department.</p>
+    </div>
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Older adults (65+)
+      </h4>
+      <p>Elderly patients often present atypically. Confusion, falls, or a general &ldquo;not feeling right&rdquo; can be the only sign of serious infection or cardiac event.</p>
+    </div>
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a5 5 0 0 1 5 5c0 3-5 10-5 10S7 10 7 7a5 5 0 0 1 5-5z"/></svg>
+        Pregnant &amp; postpartum
+      </h4>
+      <p>Any fever, severe abdominal pain, severe headache with vision changes, or reduced fetal movement should be assessed urgently. Postpartum fever within 6 weeks is a red flag.</p>
+    </div>
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v6c0 5 4 9 9 11 5-2 9-6 9-11V7z"/></svg>
+        Immunocompromised
+      </h4>
+      <p>On chemotherapy, post-transplant, or on immunosuppressants: any fever should be treated as urgent. Your threshold for seeking care is much lower.</p>
+    </div>
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Chronic conditions
+      </h4>
+      <p>Diabetes, heart disease, asthma, and COPD can decompensate quickly with seemingly mild symptoms. Follow your condition-specific action plan when symptoms start.</p>
+    </div>
+    <div class="pop-card">
+      <h4>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v1a6 6 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M9 14a3 3 0 1 0 6 0"/><path d="M12 14v4a2 2 0 0 0 4 0"/></svg>
+        Children under 5
+      </h4>
+      <p>Children dehydrate faster. Watch for sunken eyes, no tears when crying, lethargy, and no urine for &gt;6 hours. Use WHO/IMCI danger signs as your guide.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEHYDRATION -->
+<section class="edu-section" id="dehydration" data-reveal>
+  <h2><span class="icon">💧</span> Quick dehydration check</h2>
+  <p class="lead">Especially important for children, elderly patients, and anyone with vomiting or diarrhea. If <strong>two or more</strong> signs are present, treat as urgent.</p>
+  <div class="checklist">
+    <div class="check-item">Sunken eyes</div>
+    <div class="check-item">Skin doesn&rsquo;t spring back quickly when pinched (skin tenting)</div>
+    <div class="check-item">Dry mouth, no tears when crying</div>
+    <div class="check-item">Capillary refill &gt;3 seconds (press fingernail, count until pink returns)</div>
+    <div class="check-item">Cold hands and feet</div>
+    <div class="check-item">No urine for &gt;8 hours (children) or &gt;12 hours (adults)</div>
+    <div class="check-item">Dizziness or fainting on standing</div>
+    <div class="check-item">Confusion, drowsiness, or lethargy</div>
+  </div>
+  <p style="margin-top:1rem;font-size:.88rem;color:var(--muted)">
+    <strong>What to do:</strong> Oral rehydration solution (ORS) in small frequent sips. If the person can&rsquo;t keep fluids down, or has severe signs, seek care immediately.
+  </p>
+</section>
+
+<!-- MENTAL HEALTH -->
+<section class="edu-section" id="mental" data-reveal>
+  <h2><span class="icon">🧠</span> Mental health &amp; crisis support</h2>
+  <p class="lead">MediTriage AI is <strong>not</strong> designed for mental health emergencies. If you or someone you know is in crisis, please use the resources below.</p>
+  <div class="mh-callout">
+    <h3>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      If you need help right now
+    </h3>
+    <p><strong>In an immediate crisis:</strong> call your local emergency number.</p>
+    <p><strong>Crisis lines vary by country.</strong> In the US: 988 (Suicide &amp; Crisis Lifeline). In the UK: 116 123 (Samaritans). In many countries, <strong>112</strong> connects to emergency services.</p>
+    <p style="margin-top:.75rem;font-size:.85rem;color:var(--muted)">This page is educational only. For mental health concerns, please reach out to a qualified mental health professional.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="edu-cta" data-reveal>
+  <div>
+    <h3>Not sure how urgent your symptoms are?</h3>
+    <p>Run a structured triage assessment &mdash; it takes under 30 seconds and gives you a clear next step.</p>
+  </div>
+  <a class="cta" href="/assess.html">Start assessment &rarr;</a>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-card" data-reveal>
+  <h3><span aria-hidden="true">⚠</span> Medical disclaimer</h3>
+  <p><strong>This page is educational only.</strong> MediTriage AI is a decision-support and educational tool. It does not diagnose disease and is not a substitute for professional medical advice, diagnosis, or treatment. The guidance on this page reflects general WHO/IMCI principles but may not apply to your specific situation. Always consult a qualified healthcare provider. In an emergency, contact your local emergency number immediately.</p>
+</div>
+
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-ft" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-ft)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <p><strong>MediTriage AI</strong><br>Decision-support for community triage.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/education.html">Education</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+    <p class="footer-copy">&copy; 2025 MediTriage AI &middot; MIT License</p>
+  </div>
+</footer>
+<script src="/js/auth.js"></script>
+<script src="/js/ui.js"></script>
+</body></html>

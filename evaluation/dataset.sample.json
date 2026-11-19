@@ -1,0 +1,10 @@
+﻿{
+  "note": "Dataset is generated deterministically inside evaluation/runEvaluation.js (seed=42, n=400). This file documents the schema.",
+  "schema": {
+    "ageBucket": "'<'1' | '1-4' | '5-17' | '18-39' | '40-64' | '65+'",
+    "sex": "'male' | 'female' | 'unknown'",
+    "symptoms": "string[] (canonical IDs from engine/symptoms.js)",
+    "vitals": "{ tempC, heartRate, systolicBP, spo2, respRate }",
+    "goldUrgency": "'EMERGENCY' | 'URGENT' | 'SEMI_URGENT' | 'NON_URGENT' | 'SELF_CARE'"
+  }
+}

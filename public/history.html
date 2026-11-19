@@ -1,0 +1,459 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%25%27 stop-color=%27%2322d3ee%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%230e7490%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x=%272%27 y=%272%27 width=%2736%27 height=%2736%27 rx=%2710%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z%27 fill=%27%23ffffff%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/styles.css"><title>History &mdash; MediTriage AI</title>
+<style>
+  .history-page{max-width:900px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 4rem}
+  .page-header{margin-bottom:1.25rem}
+  .page-header h1{margin:0 0 .35rem}
+  .page-header p{margin:0;color:var(--muted)}
+
+  .lookup{
+    background:linear-gradient(135deg, rgba(34,211,238,.08), rgba(16,185,129,.04));
+    border:1px solid rgba(6,182,212,.25);
+    border-radius:var(--radius);padding:1.4rem;margin-bottom:1.25rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .lookup h2{margin:0 0 .35rem;font-size:1.05rem;display:flex;align-items:center;gap:.55rem}
+  .lookup h2 .icon-wrap{
+    display:inline-flex;width:26px;height:26px;align-items:center;justify-content:center;
+    border-radius:8px;background:linear-gradient(135deg,var(--brand-500),var(--brand-700));
+    color:#fff;font-size:.85rem;
+  }
+  .lookup p{margin:.25rem 0 .9rem;color:var(--muted);font-size:.88rem}
+  .lookup-form{display:flex;gap:.5rem;flex-wrap:wrap}
+  .lookup-form input{
+    flex:1;min-width:200px;padding:.75rem .9rem;
+    border:1.5px solid var(--border);border-radius:10px;
+    font-size:1rem;background:var(--surface-2);color:var(--ink);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    letter-spacing:.03em;text-transform:uppercase;
+  }
+  .lookup-form input:focus{
+    outline:none;border-color:var(--brand-500);background:var(--surface);
+    box-shadow:0 0 0 4px rgba(6,182,212,.15);
+  }
+  .lookup-form button{
+    padding:.75rem 1.3rem;border-radius:10px;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--brand-600),var(--brand-700));
+    color:#fff;font-weight:600;font-size:1rem;
+    transition:transform .2s var(--ease),filter .2s var(--ease);
+  }
+  .lookup-form button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+  .lookup-form button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .lookup-error{
+    margin-top:.75rem;padding:.6rem .9rem;border-radius:8px;
+    background:var(--danger-bg);color:var(--danger);font-size:.88rem;
+    display:none;animation:shake .4s var(--ease);
+  }
+  .lookup-error:not(:empty){display:block}
+
+  .tabs{
+    display:flex;gap:.4rem;margin:1.5rem 0 1rem;
+    border-bottom:1px solid var(--border);padding-bottom:.4rem;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    padding:.55rem 1rem;border-radius:8px 8px 0 0;
+    background:transparent;border:0;cursor:pointer;
+    font-weight:600;font-size:.9rem;color:var(--muted);
+    transition:color .2s var(--ease), background .2s var(--ease);
+    display:inline-flex;align-items:center;gap:.4rem;
+  }
+  .tab-btn:hover{color:var(--ink);background:var(--surface-2)}
+  .tab-btn.active{color:var(--brand-700);background:var(--surface);border-bottom:2px solid var(--brand-600)}
+  :root[data-theme="dark"] .tab-btn.active{color:var(--brand-400)}
+  .tab-btn .count{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:20px;height:20px;padding:0 .4rem;border-radius:999px;
+    background:var(--surface-2);color:var(--muted);font-size:.72rem;font-weight:700;
+  }
+  .tab-btn.active .count{background:var(--brand-100);color:var(--brand-700)}
+  :root[data-theme="dark"] .tab-btn.active .count{background:rgba(34,211,238,.2);color:var(--brand-400)}
+
+  .history-list{display:grid;gap:.75rem}
+  .entry{
+    display:flex;align-items:flex-start;gap:1rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.1rem 1.2rem;
+    box-shadow:var(--shadow-sm);
+    border-left:5px solid var(--accent,var(--brand-600));
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+    animation:fadeUp .4s var(--ease) both;
+  }
+  .entry:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .entry-left{flex:1;min-width:0}
+  .entry-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.35rem}
+  .entry .pill{
+    color:#fff;padding:.25rem .7rem;border-radius:999px;
+    font-weight:700;font-size:.72rem;letter-spacing:.04em;
+  }
+  .entry .ref{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.78rem;font-weight:700;color:var(--brand-700);
+    background:var(--brand-50);padding:.15rem .5rem;border-radius:5px;
+  }
+  :root[data-theme="dark"] .entry .ref{background:rgba(34,211,238,.15);color:var(--brand-300,#67e8f9)}
+  .entry .when{color:var(--muted);font-size:.78rem;margin-left:auto}
+  .entry .action{color:var(--ink);font-weight:600;font-size:.95rem;margin:.25rem 0;line-height:1.4}
+  .entry .meta{display:flex;gap:.9rem;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:.4rem}
+  .entry .meta strong{color:var(--ink-2);font-weight:700}
+  .entry-right{display:flex;flex-direction:column;gap:.35rem;flex-shrink:0}
+  .entry-right .cta{padding:.5rem .85rem;font-size:.82rem}
+
+  .empty{
+    text-align:center;padding:2.5rem 1.5rem;
+    background:var(--surface);border:1px dashed var(--border);
+    border-radius:var(--radius);color:var(--muted);
+  }
+  .empty .icon{font-size:2.5rem;margin-bottom:.6rem;opacity:.5}
+  .empty h3{color:var(--ink);margin:.5rem 0 .4rem}
+  .empty p{margin:0 0 1rem;font-size:.9rem;line-height:1.5}
+
+  .signin-hint{
+    margin-top:.75rem;padding:.7rem .9rem;border-radius:8px;
+    background:var(--surface-2);border:1px solid var(--border);
+    font-size:.85rem;color:var(--muted);line-height:1.5;
+  }
+
+  @media (max-width:640px){
+    .entry{flex-direction:column}
+    .entry-right{flex-direction:row;width:100%}
+    .entry-right .cta{flex:1;justify-content:center}
+  }
+</style>
+</head><body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-nav" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-nav)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+    <span class="brand-text">MediTriage<em>AI</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 109 9 7 7 0 01-9-9z"/></svg>
+    </button>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="/assess.html" data-nav>Assess</a></li>
+    <li><a href="/dashboard.html" data-nav>Dashboard</a></li>
+    <li><a href="/history.html" data-nav>History</a></li>
+    <li><a href="/education.html" data-nav>Education</a></li>
+    <li><a href="/about.html" data-nav>About</a></li>
+  </ul>
+</nav>
+<main class="history-page">
+  <header class="page-header">
+    <h1>Your assessments</h1>
+    <p>Review previous triage results on this device, or look up any assessment by its reference code.</p>
+  </header>
+
+  <section class="lookup">
+    <h2><span class="icon-wrap">#</span> Find assessment by reference</h2>
+    <p>Every assessment gives you a reference code like <code>MTA-4F7A-9B3C</code>. Enter it here to view the full result.</p>
+    <form class="lookup-form" id="lookup-form" autocomplete="off">
+      <input type="text" id="lookup-input" placeholder="MTA-XXXX-XXXX" maxlength="14" aria-label="Assessment reference code" required>
+      <button type="submit" id="lookup-btn">Look up</button>
+    </form>
+    <div class="lookup-error" id="lookup-error" role="alert"></div>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="History source">
+    <button class="tab-btn active" id="tab-local" role="tab" aria-selected="true" data-tab="local">
+      This device <span class="count" id="count-local">0</span>
+    </button>
+    <button class="tab-btn" id="tab-account" role="tab" aria-selected="false" data-tab="account">
+      My account <span class="count" id="count-account">0</span>
+    </button>
+  </div>
+
+  <section id="history-local" aria-labelledby="tab-local"></section>
+  <section id="history-account" aria-labelledby="tab-account" hidden></section>
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="lg-brand-ft" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#lg-brand-ft)"/><path d="M17 9h6v8h8v6h-8v8h-6v-8H9v-6h8z" fill="#ffffff"/></svg>
+      <p><strong>MediTriage AI</strong><br>Decision-support for community triage.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/education.html">Education</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-legal">
+      <strong>Medical disclaimer:</strong> MediTriage AI is a decision-support and educational tool,
+      not a medical device. It does not diagnose disease and is not a substitute for professional
+      medical advice. In an emergency, contact your local emergency number immediately.
+    </p>
+    <p class="footer-copy">&copy; 2025 MediTriage AI &middot; MIT License</p>
+  </div>
+</footer>
+<script src="/js/api.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var META = {
+    EMERGENCY:   { label:'EMERGENCY',   color:'#b91c1c' },
+    URGENT:      { label:'URGENT',      color:'#ea580c' },
+    SEMI_URGENT: { label:'SEMI-URGENT', color:'#ca8a04' },
+    NON_URGENT:  { label:'NON-URGENT',  color:'#16a34a' },
+    SELF_CARE:   { label:'SELF-CARE',   color:'#0891b2' }
+  };
+
+  var STORAGE_KEY = 'mt-history';
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function fmtDate(iso){
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleString(undefined, {
+        year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+      });
+    } catch(_) { return iso; }
+  }
+
+  function readLocalHistory(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch(_) { return []; }
+  }
+  function writeLocalHistory(arr){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr.slice(0, 100))); } catch(_) {}
+  }
+  function seedFromLastResult(){
+    try {
+      var raw = sessionStorage.getItem('lastResult');
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      if (!data || !data.id) return;
+      var history = readLocalHistory();
+      if (!history.some(function(h){ return h.id === data.id; })) {
+        history.unshift({
+          id: data.id,
+          reference: data.reference,
+          createdAt: data.createdAt || new Date().toISOString(),
+          result: data.result || {
+            urgency: data.urgency, emergency: data.emergency,
+            confidence: data.confidence, score: data.score, action: data.action
+          },
+          symptoms: data.symptoms
+        });
+        writeLocalHistory(history);
+      }
+    } catch(_) {}
+  }
+
+  function renderEntry(item){
+    var r = item.result || {};
+    var m = META[r.urgency] || META.NON_URGENT;
+    var action = r.action || '';
+    var conf = (typeof r.confidence === 'number' && r.confidence > 0)
+      ? (r.confidence * 100).toFixed(0) + '%' : '—';
+    var id = item.id || item._id || '';
+    var href = id
+      ? '/results.html?id=' + encodeURIComponent(id)
+      : (item.reference ? '/results.html?ref=' + encodeURIComponent(item.reference) : '/assess.html');
+
+    return '<article class="entry" style="--accent:' + m.color + '" data-id="' + escapeHtml(id) + '">' +
+      '<div class="entry-left">' +
+        '<div class="entry-top">' +
+          '<span class="pill" style="background:' + m.color + '">' + escapeHtml(m.label) + '</span>' +
+          (item.reference ? '<span class="ref">' + escapeHtml(item.reference) + '</span>' : '') +
+          '<span class="when">' + escapeHtml(fmtDate(item.createdAt)) + '</span>' +
+        '</div>' +
+        (action ? '<div class="action">' + escapeHtml(action) + '</div>' : '') +
+        '<div class="meta">' +
+          '<span>Score <strong>' + (Number.isFinite(r.score) ? r.score : '—') + '</strong></span>' +
+          '<span>Confidence <strong>' + conf + '</strong></span>' +
+          (r.emergency ? '<span style="color:#b91c1c;font-weight:700">Emergency</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="entry-right">' +
+        '<a class="cta ghost" href="' + href + '">View details</a>' +
+        '<button class="cta ghost" data-remove="' + escapeHtml(id || item.reference || '') +
+        '" style="color:#b91c1c;border-color:#b91c1c">Remove</button>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderEmpty(message, hint){
+    return '<div class="empty">' +
+      '<div class="icon">&#128203;</div>' +
+      '<h3>' + escapeHtml(message) + '</h3>' +
+      '<p>' + (hint || '') + '</p>' +
+      '<a class="cta" href="/assess.html">Run a new assessment</a>' +
+    '</div>';
+  }
+
+  function renderLocal(){
+    var el = document.getElementById('history-local');
+    var list = readLocalHistory();
+    document.getElementById('count-local').textContent = String(list.length);
+    if (!list.length) {
+      el.innerHTML = renderEmpty(
+        'No assessments on this device yet',
+        'Assessments you complete on this browser are saved here automatically.'
+      );
+      return;
+    }
+    el.innerHTML = '<div class="history-list">' + list.map(renderEntry).join('') + '</div>';
+    el.querySelectorAll('[data-remove]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var key = btn.getAttribute('data-remove');
+        if (!confirm('Remove this assessment from this device?')) return;
+        var filtered = readLocalHistory().filter(function(x){
+          return String(x.id || x.reference || '') !== String(key);
+        });
+        writeLocalHistory(filtered);
+        renderLocal();
+      });
+    });
+  }
+
+  async function renderAccount(){
+    var el = document.getElementById('history-account');
+    var countEl = document.getElementById('count-account');
+    el.innerHTML = '<p class="muted">Loading…</p>';
+    try {
+      var token = localStorage.getItem('mt-token');
+      if (!token) {
+        countEl.textContent = '0';
+        el.innerHTML = renderEmpty(
+          'Not signed in',
+          'Sign in to see your assessments saved on the server.'
+        ) + '<div class="signin-hint">Accounts are not enabled on this deployment. Use the <strong>This device</strong> tab or look up an assessment by reference.</div>';
+        return;
+      }
+      var resp = await fetch('/api/v1/assessments?limit=50', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (!resp.ok) {
+        if (resp.status === 401) {
+          countEl.textContent = '0';
+          el.innerHTML = renderEmpty(
+            'Session expired',
+            'Your sign-in token is no longer valid. Sign in again to view your server-side history.'
+          );
+          return;
+        }
+        throw new Error('HTTP ' + resp.status);
+      }
+      var body = await resp.json();
+      var list = (body.data || []).map(function(item){
+        return {
+          id: item._id,
+          reference: item.reference,
+          createdAt: item.createdAt,
+          result: item.result
+        };
+      });
+      countEl.textContent = String(list.length);
+      if (!list.length) {
+        el.innerHTML = renderEmpty(
+          'No assessments on your account yet',
+          'Once you run an assessment while signed in, it will appear here.'
+        );
+        return;
+      }
+      el.innerHTML = '<div class="history-list">' + list.map(renderEntry).join('') + '</div>';
+      el.querySelectorAll('[data-remove]').forEach(function(btn){
+        btn.addEventListener('click', async function(){
+          var id = btn.getAttribute('data-remove');
+          if (!confirm('Delete this assessment from your account?')) return;
+          try {
+            btn.disabled = true;
+            var r = await fetch('/api/v1/assessments/' + id, {
+              method: 'DELETE',
+              headers: { Authorization: 'Bearer ' + token }
+            });
+            if (!r.ok) throw new Error('Failed');
+            renderAccount();
+          } catch(e) {
+            alert('Could not delete: ' + e.message);
+            btn.disabled = false;
+          }
+        });
+      });
+    } catch(e) {
+      countEl.textContent = '0';
+      el.innerHTML = '<div class="lookup-error" style="display:block">Error loading account history: ' +
+        escapeHtml(e.message) + '</div>';
+    }
+  }
+
+  function activateTab(name){
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      var active = b.getAttribute('data-tab') === name;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.getElementById('history-local').hidden   = (name !== 'local');
+    document.getElementById('history-account').hidden = (name !== 'account');
+    if (name === 'account') renderAccount();
+  }
+
+  async function lookupReference(ref){
+    ref = String(ref || '').trim().toUpperCase();
+    var errEl = document.getElementById('lookup-error');
+    errEl.textContent = '';
+    if (!ref) { errEl.textContent = 'Please enter a reference code.'; return; }
+    var btn = document.getElementById('lookup-btn');
+    btn.disabled = true;
+    btn.textContent = 'Searching…';
+    try {
+      var data = await apiGet('/assessments/by-ref/' + encodeURIComponent(ref));
+      if (!data) throw new Error('not found');
+      window.location.href = '/results.html?ref=' + encodeURIComponent(ref);
+    } catch(e) {
+      errEl.textContent = 'No assessment found with that reference. Double-check the code and try again.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Look up';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    seedFromLastResult();
+    renderLocal();
+    renderAccount();
+
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.addEventListener('click', function(){ activateTab(b.getAttribute('data-tab')); });
+    });
+
+    document.getElementById('lookup-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      lookupReference(document.getElementById('lookup-input').value);
+    });
+
+    var inp = document.getElementById('lookup-input');
+    inp.addEventListener('input', function(){
+      var v = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+      if (v.length > 8) v = v.slice(0,8) + '-' + v.slice(8);
+      inp.value = v.slice(0, 14);
+    });
+
+    var refParam = new URLSearchParams(location.search).get('ref');
+    if (refParam) {
+      document.getElementById('lookup-input').value = refParam;
+      lookupReference(refParam);
+    }
+  });
+
+})();
+</script>
+<script src="/js/auth.js"></script><script src="/js/ui.js"></script>
+</body></html>
